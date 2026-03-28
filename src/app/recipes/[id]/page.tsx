@@ -25,7 +25,7 @@ export default async function RecipeDetailPage({ params }: Props) {
       {/* Hero image */}
       <div className="relative w-full h-64 bg-zinc-200">
         {recipe.image ? (
-          <Image src={recipe.image} alt={recipe.name} fill className="object-cover" unoptimized priority />
+          <Image src={recipe.image} alt={recipe.name} fill className="object-cover"  priority />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 to-zinc-900 dot-pattern" />
         )}
