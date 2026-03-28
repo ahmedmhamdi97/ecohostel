@@ -42,7 +42,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
                   alt={filtered[0].name}
                   fill
                   className="object-cover"
-                  unoptimized
+                 
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 to-zinc-900 dot-pattern" />
@@ -76,7 +76,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
                     fill
                     sizes="(max-width: 768px) 50vw, 200px"
                     className="object-cover"
-                    unoptimized
+                    
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-zinc-50">
