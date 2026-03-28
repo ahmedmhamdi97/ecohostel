@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Sun, Moon, ArrowLeft } from "lucide-react";
 import { ShiftChecklist } from "@/components/ShiftChecklist";
@@ -10,7 +11,7 @@ interface ShiftsClientProps {
   nightTasks: ShiftTask[];
 }
 
-export function ShiftsClient({ morningTasks, nightTasks }: ShiftsClientProps) {
+function ShiftsInner({ morningTasks, nightTasks }: ShiftsClientProps) {
   const params = useSearchParams();
   const active = params.get("tab") === "night" ? "night" : "morning";
   const router = useRouter();
@@ -63,5 +64,13 @@ export function ShiftsClient({ morningTasks, nightTasks }: ShiftsClientProps) {
         <ShiftChecklist tasks={tasks} shiftType={active} />
       </div>
     </div>
+  );
+}
+
+export function ShiftsClient({ morningTasks, nightTasks }: ShiftsClientProps) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <ShiftsInner morningTasks={morningTasks} nightTasks={nightTasks} />
+    </Suspense>
   );
 }
