@@ -60,9 +60,29 @@ export async function getRecipes(): Promise<Recipe[]> {
   return toObjects<Recipe>(rows);
 }
 
+const MORNING_TASKS_FALLBACK: ShiftTask[] = [
+  { task: "Come down to reception at 8:00 AM with the iPhone",          order: "1"  },
+  { task: "Check for late check-in envelopes from night shift",         order: "2"  },
+  { task: "Clean living room tables, kitchen counter and stove",        order: "3"  },
+  { task: "Wash any dishes left in sink, dry and put away",             order: "4"  },
+  { task: "Put away kitchen items drying on the rack",                  order: "5"  },
+  { task: "Clean microwave inside and out",                             order: "6"  },
+  { task: "Empty toaster crumbs",                                       order: "7"  },
+  { task: "Put stools back down",                                       order: "8"  },
+  { task: "Arrange cushions in living room and TV Room",                order: "9"  },
+  { task: "Replace worn kitchen cloths and sponges",                    order: "10" },
+  { task: "Tidy up TV Room",                                            order: "11" },
+  { task: "Dust furniture surfaces",                                    order: "12" },
+  { task: "Empty ashtrays on balconies, sweep cigarette butts",         order: "13" },
+  { task: "Bring in any cork stools left on balconies",                 order: "14" },
+  { task: "Mon & Fri: clean storage room and kitchen fridges",          order: "15" },
+  { task: "Mon & Wed: go down at 9:00 AM to buy fruit for hiking",      order: "16" },
+];
+
 export async function getMorningTasks(): Promise<ShiftTask[]> {
   const rows = await fetchSheet("shifts_morning");
   const tasks = toObjects<ShiftTask>(rows);
+  if (tasks.length === 0) return MORNING_TASKS_FALLBACK;
   return tasks.sort((a, b) => Number(a.order) - Number(b.order));
 }
 
