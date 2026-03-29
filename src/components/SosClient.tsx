@@ -70,7 +70,8 @@ const EMERGENCIES: Emergency[] = [
     steps: [
       { text: "Check the latch first — may be a manual issue" },
       { text: "Go to reception electrical panel" },
-      { text: "Find: Planta Primera / Resetear puerta GV" },
+      { text: "Find: Planta Primera / Resetear puerta GV",
+        image: { src: "/granviadoor.webp", caption: "Electrical panel — Gran Vía door reset" } },
       { text: "Flip switch DOWN and hold for 30 seconds" },
       { text: "Flip switch back UP" },
       { text: "Notify the morning shift" },
