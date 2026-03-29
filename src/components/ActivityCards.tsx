@@ -43,7 +43,7 @@ const allCards = [
   },
   {
     id: "dinner",
-    label: "Recipes",
+    label: "Dinner",
     sub: "19:15 - 22:00",
     href: "/recipes",
     icon: ChefHat,
@@ -103,7 +103,7 @@ export function ActivityCards() {
       background: card.bg,
       boxShadow: isActive && card.glow ? card.glow : undefined,
       transform: isInactive ? "scale(0.95)" : undefined,
-      opacity: isInactive ? 0.6 : undefined,
+      opacity: isInactive ? 0.88 : undefined,
       transition: "transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease",
     };
   };

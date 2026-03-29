@@ -1,5 +1,4 @@
 import { getAnnouncements } from "@/lib/sheets";
-import { HomeSearch } from "@/components/HomeSearch";
 import { AnnouncementHero } from "@/components/AnnouncementHero";
 import { ActivityCards } from "@/components/ActivityCards";
 
@@ -22,15 +21,8 @@ export default async function HomePage() {
         <img src="/logo.png" alt="Eco Hostel" className="w-12 h-12 rounded-full shrink-0 object-cover" />
       </div>
 
-      {/* ── Search ────────────────────────────────────────── */}
-      <div className="px-5 mt-5">
-        <HomeSearch />
-      </div>
-
       {/* ── Categories ────────────────────────────────────── */}
-      <div className="mt-7 px-5">
-        <h2 className="text-lg font-bold text-zinc-900 mb-5">Quick Access</h2>
-
+      <div className="mt-12 px-5">
         <ActivityCards />
       </div>
 
