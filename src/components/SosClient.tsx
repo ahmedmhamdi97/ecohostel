@@ -23,7 +23,7 @@ const EMERGENCIES: Emergency[] = [
       { text: "Call 112 immediately",                                   section: "If visible fire" },
       { text: "Evacuate via Gran Vía — do not use the elevator" },
       { text: "Go to reception, check the control panel",               section: "If alarm only",
-        image: { src: "/emergency/fire-panel.webp", caption: "Fire control panel at reception" } },
+        image: { src: "/fire-panel.webp", caption: "Fire control panel at reception" } },
       { text: "Identify the zone shown on the panel" },
       { text: "Silence the buzzer — press 1" },
       { text: "Check the indicated area for smoke or smell" },
