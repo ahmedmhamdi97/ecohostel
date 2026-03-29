@@ -14,34 +14,46 @@ export function DinnerCarousel() {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const router = useRouter();
 
-  const scrollToCard = useCallback((i: number) => {
-    cardRefs.current[i]?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-      inline: "center",
-    });
+  // Returns the scrollLeft needed to center card[i] in the container
+  const getScrollLeft = useCallback((i: number) => {
+    const container = scrollRef.current;
+    const card = cardRefs.current[i];
+    if (!container || !card) return 0;
+    const cRect = container.getBoundingClientRect();
+    const kRect = card.getBoundingClientRect();
+    // card center relative to container left edge, plus current scroll
+    const cardCenterInTrack =
+      kRect.left - cRect.left + container.scrollLeft + kRect.width / 2;
+    return cardCenterInTrack - container.offsetWidth / 2;
   }, []);
+
+  const scrollToCard = useCallback(
+    (i: number) => {
+      scrollRef.current?.scrollTo({ left: getScrollLeft(i), behavior: "smooth" });
+    },
+    [getScrollLeft]
+  );
 
   // Center today's card on first load (no animation)
   useEffect(() => {
-    cardRefs.current[todayIdx]?.scrollIntoView({
-      behavior: "instant" as ScrollBehavior,
-      block: "nearest",
-      inline: "center",
-    });
-  }, [todayIdx]);
+    const container = scrollRef.current;
+    if (!container) return;
+    container.scrollLeft = getScrollLeft(todayIdx);
+  }, [todayIdx, getScrollLeft]);
 
   const handleScroll = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return;
-    const containerCenter =
-      container.getBoundingClientRect().left + container.offsetWidth / 2;
+    const containerCenter = container.scrollLeft + container.offsetWidth / 2;
     let closest = 0;
     let closestDist = Infinity;
     cardRefs.current.forEach((el, i) => {
       if (!el) return;
-      const rect = el.getBoundingClientRect();
-      const dist = Math.abs(rect.left + rect.width / 2 - containerCenter);
+      const cRect = container.getBoundingClientRect();
+      const kRect = el.getBoundingClientRect();
+      const cardCenter =
+        kRect.left - cRect.left + container.scrollLeft + kRect.width / 2;
+      const dist = Math.abs(cardCenter - containerCenter);
       if (dist < closestDist) {
         closestDist = dist;
         closest = i;

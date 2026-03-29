@@ -3,8 +3,15 @@ import { BackButton } from "@/components/BackButton";
 
 export default function RecipesPage() {
   return (
-    <div className="pt-14 pb-safe animate-fade-up">
-      <div className="flex items-center gap-4 px-5 mb-8">
+    <div
+      className="flex flex-col animate-fade-up"
+      style={{
+        height: "calc(100dvh - 80px)",
+        paddingTop: "env(safe-area-inset-top, 44px)",
+        justifyContent: "space-evenly",
+      }}
+    >
+      <div className="flex items-center gap-4 px-5">
         <BackButton />
         <div>
           <h1 className="text-2xl font-bold text-zinc-900">Dinner</h1>
