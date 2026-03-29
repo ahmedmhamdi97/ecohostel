@@ -15,33 +15,33 @@ export function DinnerCarousel() {
   const router = useRouter();
 
   const scrollToCard = useCallback((i: number) => {
-    const container = scrollRef.current;
-    const card = cardRefs.current[i];
-    if (!container || !card) return;
-    container.scrollTo({
-      left: card.offsetLeft - (container.offsetWidth - card.offsetWidth) / 2,
+    cardRefs.current[i]?.scrollIntoView({
       behavior: "smooth",
+      block: "nearest",
+      inline: "center",
     });
   }, []);
 
-  // Scroll to today without animation on first load
+  // Center today's card on first load (no animation)
   useEffect(() => {
-    const container = scrollRef.current;
-    const card = cardRefs.current[todayIdx];
-    if (!container || !card) return;
-    container.scrollLeft =
-      card.offsetLeft - (container.offsetWidth - card.offsetWidth) / 2;
+    cardRefs.current[todayIdx]?.scrollIntoView({
+      behavior: "instant" as ScrollBehavior,
+      block: "nearest",
+      inline: "center",
+    });
   }, [todayIdx]);
 
   const handleScroll = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return;
-    const center = container.scrollLeft + container.offsetWidth / 2;
+    const containerCenter =
+      container.getBoundingClientRect().left + container.offsetWidth / 2;
     let closest = 0;
     let closestDist = Infinity;
     cardRefs.current.forEach((el, i) => {
       if (!el) return;
-      const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - center);
+      const rect = el.getBoundingClientRect();
+      const dist = Math.abs(rect.left + rect.width / 2 - containerCenter);
       if (dist < closestDist) {
         closestDist = dist;
         closest = i;
@@ -56,7 +56,7 @@ export function DinnerCarousel() {
       <div
         ref={scrollRef}
         className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar"
-        style={{ paddingLeft: "9%", paddingRight: "9%", gap: 14, paddingTop: 6, paddingBottom: 6 }}
+        style={{ paddingLeft: "9%", paddingRight: "9%", scrollPaddingInline: "9%", gap: 14, paddingTop: 6, paddingBottom: 6 }}
         onScroll={handleScroll}
       >
         {DINNER_SCHEDULE.map((dinner, i) => {
