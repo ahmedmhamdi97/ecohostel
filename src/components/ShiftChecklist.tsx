@@ -9,6 +9,16 @@ interface ShiftChecklistProps {
   shiftType: "morning" | "night";
 }
 
+const GRADIENT = {
+  morning: "linear-gradient(135deg, #c1440e, #e8724a)",
+  night:   "linear-gradient(135deg, #1b4332, #2d6a4f)",
+};
+
+const ACCENT = {
+  morning: "#c1440e",
+  night:   "#1b4332",
+};
+
 export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
   const today = new Date().toISOString().split("T")[0];
   const storageKey = `shift-${shiftType}-${today}`;
@@ -36,9 +46,9 @@ export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
       return next;
     });
 
-  const done = checked.size;
+  const done  = checked.size;
   const total = tasks.length;
-  const pct = total > 0 ? (done / total) * 100 : 0;
+  const pct   = total > 0 ? (done / total) * 100 : 0;
 
   if (tasks.length === 0) {
     return (
@@ -51,51 +61,53 @@ export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {/* Progress */}
-      <div className="flex items-center gap-3">
-        <div className="flex-1 bg-zinc-100 rounded-full h-1.5 overflow-hidden">
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-bold text-zinc-500 uppercase tracking-wide">
+            Progress
+          </span>
+          <span className="text-xs font-bold text-zinc-900">{done}/{total} tasks</span>
+        </div>
+        <div className="h-2 bg-zinc-200 rounded-full overflow-hidden">
           <div
-            className="h-full rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${pct}%`, background: "#1B2A4A" }}
+            className="h-full rounded-full transition-all duration-500"
+            style={{ width: `${pct}%`, background: GRADIENT[shiftType] }}
           />
         </div>
-        <span className="text-xs font-semibold text-zinc-500 tabular-nums whitespace-nowrap">
-          {done}/{total}
-        </span>
       </div>
 
-      {/* Tasks */}
-      <ul className="space-y-2">
+      {/* Task list */}
+      <div className="bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden">
         {tasks.map((task, i) => {
           const isDone = checked.has(i);
           return (
-            <li key={i}>
-              <button
-                onClick={() => toggle(i)}
-                className={`w-full flex items-center gap-3.5 p-4 rounded-2xl text-left
-                            transition-all duration-200 active:scale-[0.98]
-                            ${isDone
-                              ? "border"
-                              : "bg-white border border-zinc-100 shadow-card"
-                            }`}
-                style={isDone ? { background: "#1B2A4A", borderColor: "#2a3f6b" } : undefined}
-              >
-                {isDone ? (
-                  <CheckCircle2 size={22} className="text-white shrink-0" strokeWidth={2} />
-                ) : (
-                  <Circle size={22} className="text-zinc-300 shrink-0" strokeWidth={1.5} />
-                )}
-                <span className={`text-sm font-semibold transition-colors ${
-                  isDone ? "text-white line-through decoration-white/40" : "text-zinc-700"
-                }`}>
-                  {task.task}
-                </span>
-              </button>
-            </li>
+            <button
+              key={i}
+              onClick={() => toggle(i)}
+              className={`w-full flex items-center gap-3 px-4 py-3.5 text-left transition-colors active:bg-zinc-50
+                ${i < tasks.length - 1 ? "border-b border-zinc-100" : ""}
+                ${isDone ? "bg-zinc-50/60" : ""}`}
+            >
+              {isDone ? (
+                <CheckCircle2
+                  size={20}
+                  strokeWidth={2}
+                  style={{ color: ACCENT[shiftType], flexShrink: 0 }}
+                />
+              ) : (
+                <Circle size={20} strokeWidth={1.5} className="text-zinc-300 shrink-0" />
+              )}
+              <span className={`text-sm font-medium leading-snug ${
+                isDone ? "line-through text-zinc-400" : "text-zinc-700"
+              }`}>
+                {task.task}
+              </span>
+            </button>
           );
         })}
-      </ul>
+      </div>
 
       {done > 0 && (
         <button
