@@ -2,7 +2,7 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Clock, Users, ChevronRight } from "lucide-react";
+import { Clock, ChevronRight } from "lucide-react";
 import { DINNER_SCHEDULE } from "@/lib/dinnerData";
 
 export function DinnerCarousel() {
@@ -100,8 +100,8 @@ export function DinnerCarousel() {
                   }
                 }}
               >
-                <div className="p-6 h-full flex flex-col justify-between">
-                  {/* Top row */}
+                <div className="p-5 h-full flex flex-col justify-between">
+                  {/* Top row — day + today badge + chevron */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="text-white/65 text-xs font-semibold uppercase tracking-wider">
@@ -118,20 +118,33 @@ export function DinnerCarousel() {
                     )}
                   </div>
 
-                  {/* Bottom — name + meta */}
+                  {/* Centre — dish logo */}
+                  <div className="flex justify-center">
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.18)",
+                        backdropFilter: "blur(6px)",
+                        borderRadius: 20,
+                        width: 72,
+                        height: 72,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 38,
+                      }}
+                    >
+                      {dinner.emoji}
+                    </div>
+                  </div>
+
+                  {/* Bottom — name + time */}
                   <div>
-                    <h2 className="text-white font-extrabold text-[1.6rem] leading-tight mb-4">
+                    <h2 className="text-white font-extrabold text-2xl leading-tight mb-3">
                       {dinner.name}
                     </h2>
-                    <div className="flex flex-wrap gap-2">
-                      <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
-                        <Clock size={12} className="text-white/80" strokeWidth={2} />
-                        <span className="text-white/90 text-xs font-semibold">{dinner.time}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1">
-                        <Users size={12} className="text-white/80" strokeWidth={2} />
-                        <span className="text-white/90 text-xs font-semibold">{dinner.volunteers} volunteers</span>
-                      </div>
+                    <div className="flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1 w-fit">
+                      <Clock size={12} className="text-white/80" strokeWidth={2} />
+                      <span className="text-white/90 text-xs font-semibold">{dinner.time}</span>
                     </div>
                   </div>
                 </div>

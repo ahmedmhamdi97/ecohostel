@@ -15,7 +15,7 @@ export interface DinnerDay {
   day: string;
   name: string;
   time: string;
-  volunteers: number;
+  emoji: string;
   gradient: string;
 }
 
@@ -52,37 +52,37 @@ export const DINNER_SECTIONS: DinnerSection[] = [
 export const DINNER_SCHEDULE: DinnerDay[] = [
   {
     slug: "monday", day: "Monday", name: "Poke Bowl",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🥗",
     gradient: "linear-gradient(135deg, #0369a1, #38bdf8)",
   },
   {
     slug: "tuesday", day: "Tuesday", name: "Tacos",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🌮",
     gradient: "linear-gradient(135deg, #c2410c, #fb923c)",
   },
   {
     slug: "wednesday", day: "Wednesday", name: "Paella",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🥘",
     gradient: "linear-gradient(135deg, #b45309, #fcd34d)",
   },
   {
     slug: "thursday", day: "Thursday", name: "Burger",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🍔",
     gradient: "linear-gradient(135deg, #1b4332, #52b788)",
   },
   {
     slug: "friday", day: "Friday", name: "Tacos",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🌮",
     gradient: "linear-gradient(135deg, #6d28d9, #a78bfa)",
   },
   {
     slug: "saturday", day: "Saturday", name: "Paella",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🥘",
     gradient: "linear-gradient(135deg, #be123c, #fb7185)",
   },
   {
     slug: "sunday", day: "Sunday", name: "Stroganoff",
-    time: "19:15", volunteers: 3,
+    time: "19:15", emoji: "🍲",
     gradient: "linear-gradient(135deg, #78350f, #d97706)",
   },
 ];
