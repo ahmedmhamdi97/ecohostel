@@ -6,6 +6,7 @@ import { ChevronDown, PhoneCall } from "lucide-react";
 interface Step {
   text: string;
   section?: string; // renders a mini-label above this step
+  image?: { src: string; caption: string }; // inline image shown after this step
 }
 
 interface Emergency {
@@ -21,7 +22,8 @@ const EMERGENCIES: Emergency[] = [
     steps: [
       { text: "Call 112 immediately",                                   section: "If visible fire" },
       { text: "Evacuate via Gran Vía — do not use the elevator" },
-      { text: "Go to reception, check the control panel",               section: "If alarm only" },
+      { text: "Go to reception, check the control panel",               section: "If alarm only",
+        image: { src: "/emergency/fire-panel.webp", caption: "Fire control panel at reception" } },
       { text: "Identify the zone shown on the panel" },
       { text: "Silence the buzzer — press 1" },
       { text: "Check the indicated area for smoke or smell" },
@@ -222,6 +224,19 @@ export function SosClient() {
                             {step.text}
                           </p>
                         </div>
+                        {step.image && (
+                          <div className="mt-2.5 rounded-2xl overflow-hidden border border-zinc-100">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={step.image.src}
+                              alt={step.image.caption}
+                              className="w-full object-cover"
+                            />
+                            <p className="text-[11px] font-semibold text-zinc-400 text-center py-2 bg-zinc-50">
+                              {step.image.caption}
+                            </p>
+                          </div>
+                        )}
                       </li>
                     ))}
                   </ol>
