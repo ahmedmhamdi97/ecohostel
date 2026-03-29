@@ -66,9 +66,25 @@ export async function getMorningTasks(): Promise<ShiftTask[]> {
   return tasks.sort((a, b) => Number(a.order) - Number(b.order));
 }
 
+const NIGHT_TASKS_FALLBACK: ShiftTask[] = [
+  { task: "Put new bags in trash bins, tie with a knot",        order: "1"  },
+  { task: "Clear guests from common areas by midnight",         order: "2"  },
+  { task: "Turn off the music",                                 order: "3"  },
+  { task: "Put stools and benches on top of tables",            order: "4"  },
+  { task: "No stools left on balconies",                        order: "5"  },
+  { task: "Clear and dry the sink area",                        order: "6"  },
+  { task: "Wash dishes and glasses from dinner",                order: "7"  },
+  { task: "Store the pan back in storage",                      order: "8"  },
+  { task: "Sweep and mop kitchen, living area, TV Room",        order: "9"  },
+  { task: "Check phone is not on silent (Fermax app open)",     order: "10" },
+  { task: "Do a round through the hostel — check noise levels", order: "11" },
+  { task: "Fri only: take out the cardboard",                   order: "12" },
+];
+
 export async function getNightTasks(): Promise<ShiftTask[]> {
   const rows = await fetchSheet("shifts_night");
   const tasks = toObjects<ShiftTask>(rows);
+  if (tasks.length === 0) return NIGHT_TASKS_FALLBACK;
   return tasks.sort((a, b) => Number(a.order) - Number(b.order));
 }
 
