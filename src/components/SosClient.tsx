@@ -83,7 +83,8 @@ const EMERGENCIES: Emergency[] = [
     steps: [
       { text: "Identify the affected area" },
       { text: "Check the electrical panel on that floor" },
-      { text: "Reset any tripped breaker (flip down, then up)" },
+      { text: "Reset any tripped breaker (flip down, then up)",
+        image: { src: "/poweroutage.webp", caption: "Electrical panel — reset tripped breaker" } },
       { text: "If it trips again, unplug the overloading appliance" },
       { text: "If the whole building is out, check the ground floor panel" },
     ],
