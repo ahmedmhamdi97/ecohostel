@@ -34,8 +34,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
       {!search && filtered.length > 0 && (
         <div>
           <Link href={`/recipes/${recipes.indexOf(filtered[0])}`}>
-            <div className="relative rounded-3xl overflow-hidden h-52 bg-zinc-200
-                            active:scale-[0.98] transition-transform duration-150">
+            <div className="tap-card relative rounded-3xl overflow-hidden h-52 bg-zinc-200">
               {filtered[0].image ? (
                 <Image
                   src={filtered[0].image}
@@ -45,7 +44,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
                  
                 />
               ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 to-zinc-900 dot-pattern" />
+                <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, #2a3f6b, #1B2A4A)" }} />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-5">
@@ -65,8 +64,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
             <Link
               key={i}
               href={`/recipes/${idx}`}
-              className="bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden
-                         active:scale-[0.97] transition-transform duration-150 flex flex-col"
+              className="tap-card bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden flex flex-col"
             >
               <div className="relative w-full aspect-[4/3] bg-zinc-100">
                 {recipe.image ? (
@@ -80,7 +78,7 @@ export function RecipesClient({ recipes }: RecipesClientProps) {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-zinc-50">
-                    <ChefHat size={26} className="text-zinc-300" strokeWidth={1.5} />
+                    <ChefHat size={20} className="text-zinc-300" strokeWidth={2} />
                   </div>
                 )}
               </div>

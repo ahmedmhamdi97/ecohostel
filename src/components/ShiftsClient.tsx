@@ -37,7 +37,7 @@ function ShiftsInner({ morningTasks, nightTasks }: ShiftsClientProps) {
           className="absolute top-14 left-5 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm
                      flex items-center justify-center shadow-md active:scale-90 transition-transform"
         >
-          <ArrowLeft size={18} className="text-zinc-900" strokeWidth={2.2} />
+          <ArrowLeft size={18} className="text-zinc-900" strokeWidth={2} />
         </button>
       </div>
 
@@ -51,8 +51,8 @@ function ShiftsInner({ morningTasks, nightTasks }: ShiftsClientProps) {
           </h1>
           <div className="flex items-center gap-1.5 mt-1">
             {isMorning
-              ? <Sun size={18} className="text-amber-400" strokeWidth={2.2} />
-              : <Moon size={18} className="text-indigo-400" strokeWidth={2.2} />
+              ? <Sun size={18} className="text-amber-400" strokeWidth={2} />
+              : <Moon size={18} className="text-indigo-400" strokeWidth={2} />
             }
           </div>
         </div>

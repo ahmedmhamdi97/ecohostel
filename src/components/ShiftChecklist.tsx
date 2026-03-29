@@ -56,8 +56,8 @@ export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
       <div className="flex items-center gap-3">
         <div className="flex-1 bg-zinc-100 rounded-full h-1.5 overflow-hidden">
           <div
-            className="bg-zinc-900 h-full rounded-full transition-all duration-500 ease-out"
-            style={{ width: `${pct}%` }}
+            className="h-full rounded-full transition-all duration-500 ease-out"
+            style={{ width: `${pct}%`, background: "#1B2A4A" }}
           />
         </div>
         <span className="text-xs font-semibold text-zinc-500 tabular-nums whitespace-nowrap">
@@ -76,9 +76,10 @@ export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
                 className={`w-full flex items-center gap-3.5 p-4 rounded-2xl text-left
                             transition-all duration-200 active:scale-[0.98]
                             ${isDone
-                              ? "bg-zinc-900 border border-zinc-800"
+                              ? "border"
                               : "bg-white border border-zinc-100 shadow-card"
                             }`}
+                style={isDone ? { background: "#1B2A4A", borderColor: "#2a3f6b" } : undefined}
               >
                 {isDone ? (
                   <CheckCircle2 size={22} className="text-white shrink-0" strokeWidth={2} />

@@ -49,9 +49,10 @@ export function GuidesClient({ tutorials, initialSearch = "" }: GuidesClientProp
               className={`flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-semibold
                           transition-all duration-200
                           ${activeCategory === cat
-                            ? "bg-zinc-900 text-white shadow-md"
+                            ? "text-white shadow-md"
                             : "bg-zinc-100 text-zinc-500"
                           }`}
+              style={activeCategory === cat ? { background: "#1B2A4A" } : undefined}
             >
               {cat}
             </button>
@@ -74,16 +75,17 @@ export function GuidesClient({ tutorials, initialSearch = "" }: GuidesClientProp
             <Link
               key={i}
               href={`/guides/${idx}`}
-              className="flex items-center gap-4 bg-white rounded-3xl border border-zinc-100
-                         shadow-card p-4 active:scale-[0.98] transition-transform duration-150"
+              className="tap-card flex items-center gap-4 bg-white rounded-3xl border border-zinc-100
+                         shadow-card p-4"
             >
               {/* Icon thumb */}
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0
-                               ${tutorial.video ? "bg-zinc-900" : "bg-zinc-100"}`}>
+              <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0
+                               ${tutorial.video ? "" : "bg-zinc-100"}`}
+                   style={tutorial.video ? { background: "#1B2A4A" } : undefined}>
                 {tutorial.video ? (
                   <Play size={18} className="text-white ml-0.5" fill="white" />
                 ) : (
-                  <BookOpen size={18} className="text-zinc-400" strokeWidth={1.8} />
+                  <BookOpen size={18} className="text-zinc-400" strokeWidth={2} />
                 )}
               </div>
 

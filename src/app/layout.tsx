@@ -3,6 +3,7 @@ import "./globals.css";
 import { BottomNav } from "@/components/BottomNav";
 import { RegisterSW } from "@/components/RegisterSW";
 import { SplashScreen } from "@/components/SplashScreen";
+import { PageTransition } from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Hostel Volunteer Manual",
@@ -38,7 +39,9 @@ export default function RootLayout({
       <body>
         <SplashScreen />
         <RegisterSW />
-        <main className="min-h-screen pb-safe">{children}</main>
+        <main className="min-h-screen pb-safe">
+          <PageTransition>{children}</PageTransition>
+        </main>
         <BottomNav />
       </body>
     </html>
