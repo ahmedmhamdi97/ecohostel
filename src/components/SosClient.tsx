@@ -6,7 +6,8 @@ import { ChevronDown, PhoneCall } from "lucide-react";
 interface Step {
   text: string;
   section?: string; // renders a mini-label above this step
-  image?: { src: string; caption: string }; // inline image shown after this step
+  image?: { src: string; caption: string }; // single inline image (legacy)
+  images?: { src: string; caption: string }[]; // multiple inline images after this step
 }
 
 interface Emergency {
@@ -105,8 +106,8 @@ const EMERGENCIES: Emergency[] = [
     title: "Guest Accident",
     steps: [
       { text: "Assess severity",                                         section: "First" },
-      { text: "Minor injury: use the first aid kit at reception",        section: "If minor" },
-      { text: "Serious: call 112 and unlock the ground floor entrance",  section: "If serious" },
+      { text: "Minor injury: use the first aid kit at reception",        section: "If minor", image: { src: "/firstaid.webp", caption: "First aid kit at reception" } },
+      { text: "Serious: call 112 and unlock the ground floor entrance",  section: "If serious", image: { src: "/firstaid2.webp", caption: "Emergency entrance — ground floor" } },
       { text: "Report in the WhatsApp group" },
     ],
   },
@@ -127,7 +128,10 @@ const EMERGENCIES: Emergency[] = [
       { text: "Check the boiler screen at reception" },
       { text: "The indicator light must be green" },
       { text: "If off, turn it on manually" },
-      { text: "Verify hot water is now working" },
+      { text: "Verify hot water is now working", images: [
+        { src: "/hotwater.webp",  caption: "Boiler screen at reception" },
+        { src: "/hotwater2.webp", caption: "Boiler indicator light" },
+      ] },
     ],
   },
 ];
@@ -142,6 +146,34 @@ export function SosClient() {
       <p className="text-zinc-400 text-sm font-medium mt-0.5 mb-5">
         Tap a scenario to see the steps
       </p>
+
+      {/* Phone numbers banner */}
+      <div
+        className="rounded-2xl px-4 py-3.5 mb-3"
+        style={{ background: "linear-gradient(135deg, #1B2A4A, #2d4270)" }}
+      >
+        <p className="text-white font-bold text-sm mb-2">☎ IMPORTANT PHONE NUMBERS</p>
+        <div className="flex items-center justify-between">
+          <p className="text-white/80 text-xs">General Emergencies / Police / Fire Brigade / Ambulance</p>
+          <a
+            href="tel:112"
+            className="ml-3 flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1 shrink-0 active:opacity-70"
+          >
+            <PhoneCall size={12} className="text-white" strokeWidth={2} />
+            <span className="text-white text-xs font-bold">112</span>
+          </a>
+        </div>
+        <div className="flex items-center justify-between mt-1.5">
+          <p className="text-white/80 text-xs">Elevator ORONA</p>
+          <a
+            href="tel:900210813"
+            className="ml-3 flex items-center gap-1.5 bg-white/20 rounded-full px-3 py-1 shrink-0 active:opacity-70"
+          >
+            <PhoneCall size={12} className="text-white" strokeWidth={2} />
+            <span className="text-white text-xs font-bold">900 210 813</span>
+          </a>
+        </div>
+      </div>
 
       {/* Golden rule banner */}
       <div
@@ -227,19 +259,19 @@ export function SosClient() {
                             {step.text}
                           </p>
                         </div>
-                        {step.image && (
-                          <div className="mt-2.5 rounded-2xl overflow-hidden border border-zinc-100">
+                        {(step.images ?? (step.image ? [step.image] : [])).map((img, imgIdx) => (
+                          <div key={imgIdx} className="mt-2.5 rounded-2xl overflow-hidden border border-zinc-100">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
-                              src={step.image.src}
-                              alt={step.image.caption}
+                              src={img.src}
+                              alt={img.caption}
                               className="w-full object-cover"
                             />
                             <p className="text-[11px] font-semibold text-zinc-400 text-center py-2 bg-zinc-50">
-                              {step.image.caption}
+                              {img.caption}
                             </p>
                           </div>
-                        )}
+                        ))}
                       </li>
                     ))}
                   </ol>
