@@ -57,7 +57,7 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
     <div className="fixed inset-0 bg-black flex flex-col" style={{ touchAction: "none" }}>
       {/* Back button */}
       <div className="absolute top-0 left-0 z-10 p-4" style={{ paddingTop: "env(safe-area-inset-top, 44px)" }}>
-        <BackButton className="bg-white/20 backdrop-blur-sm text-white" />
+        <BackButton />
       </div>
 
       {/* Image container */}
