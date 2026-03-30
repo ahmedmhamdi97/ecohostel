@@ -1,5 +1,4 @@
 import { getSchedule } from "@/lib/sheets";
-import Image from "next/image";
 import { Calendar, RefreshCw } from "lucide-react";
 
 export const revalidate = 300;
@@ -26,62 +25,24 @@ export default async function SchedulePage() {
               Add an image URL to the &ldquo;schedule&rdquo; sheet.
             </p>
           </div>
-          <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-3 text-left inline-block">
-            <p className="text-xs text-zinc-500 font-mono">
-              sheet: <strong>schedule</strong> → column: <strong>image_url</strong>
-            </p>
-          </div>
         </div>
       ) : (
         <div className="space-y-4">
-          {/* Latest schedule */}
           <div className="bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden">
-            <div className="relative w-full min-h-[340px] bg-zinc-100">
-              <Image
-                src={latest.image_url}
-                alt="Weekly schedule"
-                fill
-                className="object-contain"
-                unoptimized
-                priority
-              />
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={latest.image_url}
+              alt="Weekly schedule"
+              className="w-full h-auto object-contain"
+            />
           </div>
 
-          {/* Info row */}
           <div className="flex items-center gap-2 px-1">
             <RefreshCw size={12} className="text-zinc-400 shrink-0" />
             <p className="text-xs text-zinc-400 font-medium">
-              Updates automatically when the manager adds a new image link to the sheet.
+              Updates automatically when the manager adds a new image link.
             </p>
           </div>
-
-          {/* Previous schedules */}
-          {schedules.length > 1 && (
-            <div className="space-y-3 pt-2">
-              <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
-                Previous schedules
-              </p>
-              {schedules.slice(0, -1).reverse().map((s, i) =>
-                s.image_url ? (
-                  <div
-                    key={i}
-                    className="bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden opacity-50"
-                  >
-                    <div className="relative w-full min-h-[200px] bg-zinc-100">
-                      <Image
-                        src={s.image_url}
-                        alt={`Past schedule ${i + 1}`}
-                        fill
-                        className="object-contain"
-                        unoptimized
-                      />
-                    </div>
-                  </div>
-                ) : null
-              )}
-            </div>
-          )}
         </div>
       )}
     </div>
