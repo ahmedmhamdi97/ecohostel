@@ -1,5 +1,6 @@
 import { getSchedule } from "@/lib/sheets";
-import { Calendar, RefreshCw } from "lucide-react";
+import { ScheduleClient } from "@/components/ScheduleClient";
+import { Calendar } from "lucide-react";
 
 export const revalidate = 0;
 
@@ -7,14 +8,9 @@ export default async function SchedulePage() {
   const schedules = await getSchedule();
   const latest = schedules[schedules.length - 1];
 
-  return (
-    <div className="px-5 pt-14 pb-6 space-y-6 animate-fade-up">
-      <div>
-        <h1 className="text-3xl font-extrabold text-zinc-900 tracking-tight">Schedule</h1>
-        <p className="text-zinc-400 text-sm font-medium mt-1">Latest weekly shift roster</p>
-      </div>
-
-      {!latest?.image_url ? (
+  if (!latest?.image_url) {
+    return (
+      <div className="px-5 pt-14 pb-6 flex flex-col items-center justify-center min-h-screen">
         <div className="bg-white rounded-3xl border border-zinc-100 shadow-card p-10 text-center space-y-4">
           <div className="w-16 h-16 rounded-3xl bg-zinc-100 flex items-center justify-center mx-auto">
             <Calendar size={28} className="text-zinc-400" strokeWidth={1.8} />
@@ -26,25 +22,9 @@ export default async function SchedulePage() {
             </p>
           </div>
         </div>
-      ) : (
-        <div className="space-y-4">
-          <div className="bg-white rounded-3xl border border-zinc-100 shadow-card overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={latest.image_url}
-              alt="Weekly schedule"
-              className="w-full h-auto object-contain"
-            />
-          </div>
+      </div>
+    );
+  }
 
-          <div className="flex items-center gap-2 px-1">
-            <RefreshCw size={12} className="text-zinc-400 shrink-0" />
-            <p className="text-xs text-zinc-400 font-medium">
-              Updates automatically when the manager adds a new image link.
-            </p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  return <ScheduleClient imageUrl={latest.image_url} />;
 }
