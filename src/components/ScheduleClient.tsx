@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { BackButton } from "./BackButton";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
   const [scale, setScale] = useState(1);
@@ -12,7 +13,6 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
   const lastScale = useRef(1);
   const lastTx = useRef(0);
   const lastTy = useRef(0);
-  const lastMid = useRef({ x: 0, y: 0 });
   const lastSingleTouch = useRef({ x: 0, y: 0 });
   const lastTapTime = useRef(0);
 
@@ -29,14 +29,9 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
       lastScale.current = scale;
       lastTx.current = tx;
       lastTy.current = ty;
-      lastMid.current = {
-        x: (e.touches[0].clientX + e.touches[1].clientX) / 2,
-        y: (e.touches[0].clientY + e.touches[1].clientY) / 2,
-      };
     } else if (e.touches.length === 1) {
       const now = Date.now();
       if (now - lastTapTime.current < 300) {
-        // double tap
         setScale(1);
         setTx(0);
         setTy(0);
@@ -76,15 +71,16 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Back button */}
-      <div
-        className="absolute top-0 left-0 z-10 p-4"
-        style={{ paddingTop: "env(safe-area-inset-top, 44px)" }}
+      {/* Back button → home */}
+      <Link
+        href="/"
+        className="absolute top-0 left-0 z-10 m-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform"
+        style={{ marginTop: "env(safe-area-inset-top, 44px)" }}
       >
-        <BackButton />
-      </div>
+        <ArrowLeft size={18} className="text-zinc-900" strokeWidth={2} />
+      </Link>
 
-      {/* Image — centred, rotated 180°, zoomable */}
+      {/* Image — full width, rotated 90°, pinch-to-zoom */}
       <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -92,10 +88,9 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
           alt="Weekly schedule"
           draggable={false}
           style={{
-            maxWidth: "100%",
-            maxHeight: "100%",
+            width: "100vw",
             objectFit: "contain",
-            transform: `rotate(180deg) scale(${scale}) translate(${-tx / scale}px, ${-ty / scale}px)`,
+            transform: `rotate(90deg) scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
             transition: scale === 1 && tx === 0 && ty === 0 ? "transform 0.25s ease" : "none",
             userSelect: "none",
             WebkitUserSelect: "none",
@@ -105,7 +100,7 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
 
       {/* Hint */}
       <p
-        className="absolute bottom-0 left-0 right-0 text-white/40 text-xs text-center pb-4"
+        className="absolute bottom-0 left-0 right-0 text-white/40 text-xs text-center"
         style={{ paddingBottom: "max(16px, env(safe-area-inset-bottom))" }}
       >
         Pinch to zoom · Double-tap to reset
