@@ -31,15 +31,6 @@ const SCENARIOS: Scenario[] = [
       "Don't put other volunteers in an awkward situation by trying to fuck in shared spaces.",
     ],
   },
-  {
-    emoji: "👥",
-    title: "Friends Visiting the Hostel",
-    steps: [
-      "If friends want to come by, ask reception first if they can hang out in the common area.",
-      "Visitors cannot go into dorm rooms.",
-      "No one can stay the night unless they book a bed or room like a normal guest.",
-    ],
-  },
 ];
 
 export function WtfClient() {
