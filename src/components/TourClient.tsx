@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, RotateCcw, ChevronRight } from "lucide-react";
-import { TOUR_STOPS } from "@/lib/tourData";
+import { ArrowLeft, CheckCircle2, RotateCcw, ChevronRight, MapPin, Map } from "lucide-react";
+import { TOUR_STOPS, FULL_ROUTE_URL } from "@/lib/tourData";
 
 export function TourClient() {
   const [visitedIds, setVisitedIds] = useState<Set<number>>(new Set());
@@ -21,24 +21,26 @@ export function TourClient() {
   };
 
   const progressPct = (visitedIds.size / total) * 100;
+  const isComplete = visitedIds.size === total;
 
   return (
-    <div className="min-h-screen" style={{ background: "#f4f6f3" }}>
-      {/* Header */}
+    <div className="min-h-screen" style={{ background: "#f0f4f1" }}>
+
+      {/* ── Header ───────────────────────────────────────── */}
       <div
-        className="px-5 pt-14 pb-6"
-        style={{ background: "linear-gradient(135deg, #14532d 0%, #166534 100%)" }}
+        className="px-5 pt-14 pb-5"
+        style={{ background: "linear-gradient(160deg, #0f3d22 0%, #166534 60%, #15803d 100%)" }}
       >
         <div className="flex items-center gap-3 mb-5">
           <Link
             href="/"
             className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-            style={{ background: "rgba(255,255,255,0.15)" }}
+            style={{ background: "rgba(255,255,255,0.14)" }}
           >
             <ArrowLeft size={18} className="text-white" />
           </Link>
           <div className="flex-1">
-            <p className="text-white/70 text-[10px] font-bold uppercase tracking-widest mb-0.5">
+            <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-0.5">
               Volunteer Guide
             </p>
             <h1 className="text-white text-xl font-black tracking-tight leading-none">
@@ -48,7 +50,7 @@ export function TourClient() {
           <button
             onClick={reset}
             className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-            style={{ background: "rgba(255,255,255,0.15)" }}
+            style={{ background: "rgba(255,255,255,0.14)" }}
             aria-label="Reset tour"
           >
             <RotateCcw size={15} className="text-white" />
@@ -56,10 +58,10 @@ export function TourClient() {
         </div>
 
         {/* Progress bar */}
-        <div className="flex items-center gap-3 mb-1">
+        <div className="flex items-center gap-3 mb-3">
           <div
             className="flex-1 h-1.5 rounded-full overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.2)" }}
+            style={{ background: "rgba(255,255,255,0.18)" }}
           >
             <div
               className="h-full rounded-full transition-all duration-500"
@@ -70,93 +72,183 @@ export function TourClient() {
             {visitedIds.size}/{total}
           </span>
         </div>
-        <p className="text-white/55 text-xs font-medium">{total} stops · ~2 hours</p>
+
+        {/* Full route button */}
+        <a
+          href={FULL_ROUTE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 w-full rounded-2xl px-4 py-2.5 active:scale-95 transition-transform"
+          style={{ background: "rgba(255,255,255,0.13)" }}
+        >
+          <Map size={15} className="text-white/80 shrink-0" />
+          <span className="text-white/90 text-xs font-semibold flex-1">View Full Route on Google Maps</span>
+          <ChevronRight size={14} className="text-white/50" />
+        </a>
       </div>
 
-      {/* Stop list */}
-      <div className="px-4 py-4 pb-safe space-y-2.5">
+      {/* ── Tour complete banner ─────────────────────────── */}
+      {isComplete && (
+        <div
+          className="mx-4 mt-4 rounded-2xl px-4 py-3 flex items-center gap-3"
+          style={{ background: "linear-gradient(135deg, #14532d, #166534)" }}
+        >
+          <span className="text-2xl">🎉</span>
+          <div>
+            <p className="text-white font-bold text-sm">Tour complete!</p>
+            <p className="text-white/70 text-xs">Don't forget: FREE SANGRIA at 8PM on the 4th floor!</p>
+          </div>
+        </div>
+      )}
+
+      {/* ── Stop list ────────────────────────────────────── */}
+      <div className="px-4 pt-4 pb-safe">
         {TOUR_STOPS.map((stop, idx) => {
           const isVisited = visitedIds.has(idx);
           const isCurrent = idx === currentIdx && !isVisited;
           const isUpcoming = !isVisited && !isCurrent;
-
-          const borderColor = isVisited ? "#16a34a" : isCurrent ? "#d97706" : "#e2e8f0";
-          const badgeBg = isVisited ? "#dcfce7" : isCurrent ? "#fef3c7" : "#f1f5f9";
+          const isLast = idx === total - 1;
 
           return (
-            <div
-              key={stop.number}
-              className="rounded-2xl overflow-hidden transition-all duration-300"
-              style={{
-                background: "white",
-                borderLeft: `4px solid ${borderColor}`,
-                opacity: isVisited ? 0.55 : 1,
-                boxShadow: isCurrent
-                  ? "0 4px 20px rgba(217,119,6,0.15)"
-                  : "0 1px 4px rgba(0,0,0,0.04)",
-              }}
-            >
-              <div className="p-4">
-                <div className="flex items-start gap-3">
-                  {/* Badge */}
+            <div key={stop.number} className="flex gap-0">
+
+              {/* ── Timeline column ── */}
+              <div className="flex flex-col items-center" style={{ width: 44, minWidth: 44 }}>
+                {/* Badge */}
+                <div
+                  className="flex items-center justify-center rounded-2xl shrink-0 transition-all duration-300"
+                  style={{
+                    width: 36,
+                    height: 36,
+                    background: isVisited
+                      ? "#dcfce7"
+                      : isCurrent
+                      ? "linear-gradient(135deg, #d97706, #b45309)"
+                      : "white",
+                    boxShadow: isCurrent
+                      ? "0 4px 14px rgba(217,119,6,0.35)"
+                      : "0 1px 4px rgba(0,0,0,0.07)",
+                    border: isUpcoming ? "1.5px solid #e2e8f0" : "none",
+                  }}
+                >
+                  {isVisited ? (
+                    <CheckCircle2 size={17} className="text-green-600" />
+                  ) : isCurrent ? (
+                    <span className="text-white font-black text-xs">{stop.number}</span>
+                  ) : (
+                    <span className="text-xs" style={{ fontSize: 16 }}>{stop.emoji}</span>
+                  )}
+                </div>
+
+                {/* Connector line */}
+                {!isLast && (
                   <div
-                    className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5"
-                    style={{ background: badgeBg }}
-                  >
-                    {isVisited ? (
-                      <CheckCircle2 size={18} className="text-green-600" />
-                    ) : (
-                      <span
-                        className="text-sm font-black"
-                        style={{ color: isCurrent ? "#b45309" : "#94a3b8" }}
+                    className="flex-1 w-px my-1"
+                    style={{
+                      background: isVisited
+                        ? "linear-gradient(to bottom, #86efac, #bbf7d0)"
+                        : "#e2e8f0",
+                      minHeight: 12,
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* ── Card ── */}
+              <div
+                className="flex-1 mb-2.5 rounded-2xl overflow-hidden transition-all duration-300"
+                style={{
+                  background: isCurrent ? "white" : isVisited ? "rgba(255,255,255,0.5)" : "white",
+                  boxShadow: isCurrent
+                    ? "0 6px 24px rgba(217,119,6,0.12), 0 1px 4px rgba(0,0,0,0.06)"
+                    : "0 1px 4px rgba(0,0,0,0.05)",
+                  opacity: isVisited ? 0.55 : 1,
+                  borderLeft: isCurrent ? "3px solid #d97706" : isVisited ? "3px solid #86efac" : "3px solid #e2e8f0",
+                }}
+              >
+                <div className="p-3.5">
+                  {/* Row: emoji + name + time + map pin */}
+                  <div className="flex items-center gap-2">
+                    {!isVisited && (
+                      <span className="text-base leading-none shrink-0">{stop.emoji}</span>
+                    )}
+                    <p
+                      className="font-bold text-sm leading-tight flex-1"
+                      style={{ color: isUpcoming ? "#94a3b8" : "#0f172a" }}
+                    >
+                      {stop.name}
+                    </p>
+                    <span
+                      className="text-xs font-semibold shrink-0 tabular-nums"
+                      style={{ color: isUpcoming ? "#cbd5e1" : "#64748b" }}
+                    >
+                      {stop.time}
+                    </span>
+                    {/* Map pin — always visible on non-visited */}
+                    {!isVisited && (
+                      <a
+                        href={stop.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center justify-center rounded-xl active:scale-90 transition-transform shrink-0"
+                        style={{
+                          width: 30,
+                          height: 30,
+                          background: isCurrent ? "#fff7ed" : "#f1f5f9",
+                        }}
+                        aria-label={`Open ${stop.name} in Google Maps`}
                       >
-                        {stop.number}
-                      </span>
+                        <MapPin
+                          size={14}
+                          strokeWidth={2}
+                          style={{ color: isCurrent ? "#d97706" : "#94a3b8" }}
+                        />
+                      </a>
                     )}
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    {/* Stop name + time */}
-                    <div className="flex items-center justify-between gap-2">
-                      <p
-                        className="font-bold text-sm leading-tight"
-                        style={{ color: isUpcoming ? "#94a3b8" : "#0f172a" }}
+                  {/* Expanded notes for current stop */}
+                  {isCurrent && (
+                    <div className="mt-3">
+                      <p className="text-slate-600 text-sm leading-relaxed">{stop.notes}</p>
+
+                      {/* Open in Maps CTA */}
+                      <a
+                        href={stop.mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-transform active:scale-95"
+                        style={{ background: "#f0fdf4", color: "#15803d" }}
                       >
-                        {stop.name}
-                      </p>
-                      <span
-                        className="text-xs font-semibold shrink-0 tabular-nums"
-                        style={{ color: isUpcoming ? "#cbd5e1" : "#64748b" }}
+                        <MapPin size={13} strokeWidth={2.5} />
+                        Open in Google Maps
+                      </a>
+
+                      {/* Mark visited / Complete */}
+                      <button
+                        onClick={markVisited}
+                        className="mt-2 w-full py-3 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
+                        style={{
+                          background:
+                            idx === total - 1
+                              ? "linear-gradient(135deg, #14532d 0%, #166534 100%)"
+                              : "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
+                        }}
                       >
-                        {stop.time}
-                      </span>
+                        {idx === total - 1 ? "Complete Tour  ✓" : "Mark as Visited"}
+                        {idx < total - 1 && <ChevronRight size={15} />}
+                      </button>
                     </div>
-
-                    {/* Expanded notes for current stop */}
-                    {isCurrent && (
-                      <div className="mt-2.5">
-                        <p className="text-slate-600 text-sm leading-relaxed">{stop.notes}</p>
-                        <button
-                          onClick={markVisited}
-                          className="mt-3 w-full py-3 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
-                          style={{
-                            background:
-                              idx === total - 1
-                                ? "linear-gradient(135deg, #14532d 0%, #166534 100%)"
-                                : "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
-                          }}
-                        >
-                          {idx === total - 1 ? "Complete Tour  ✓" : "Mark as Visited"}
-                          {idx < total - 1 && <ChevronRight size={15} />}
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
+
             </div>
           );
         })}
+
+        <div className="h-4" />
       </div>
     </div>
   );
