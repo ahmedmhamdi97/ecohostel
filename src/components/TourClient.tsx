@@ -7,17 +7,20 @@ import { TOUR_STOPS, FULL_ROUTE_URL } from "@/lib/tourData";
 
 export function TourClient() {
   const [visitedIds, setVisitedIds] = useState<Set<number>>(new Set());
-  const [currentIdx, setCurrentIdx] = useState(0);
+  const [expandedIdx, setExpandedIdx] = useState<number | null>(0);
   const total = TOUR_STOPS.length;
 
-  const markVisited = () => {
-    setVisitedIds((prev) => new Set([...prev, currentIdx]));
-    if (currentIdx < total - 1) setCurrentIdx(currentIdx + 1);
+  // First unvisited stop — gets the amber "you are here" highlight
+  const suggestedIdx = TOUR_STOPS.findIndex((_, i) => !visitedIds.has(i));
+
+  const markVisited = (idx: number) => {
+    setVisitedIds((prev) => new Set([...prev, idx]));
+    setExpandedIdx(null);
   };
 
   const reset = () => {
     setVisitedIds(new Set());
-    setCurrentIdx(0);
+    setExpandedIdx(0);
   };
 
   const progressPct = (visitedIds.size / total) * 100;
@@ -105,8 +108,8 @@ export function TourClient() {
       <div className="px-4 pt-4 pb-safe">
         {TOUR_STOPS.map((stop, idx) => {
           const isVisited = visitedIds.has(idx);
-          const isCurrent = idx === currentIdx && !isVisited;
-          const isUpcoming = !isVisited && !isCurrent;
+          const isSuggested = idx === suggestedIdx;
+          const isExpanded = expandedIdx === idx;
           const isLast = idx === total - 1;
 
           return (
@@ -122,21 +125,21 @@ export function TourClient() {
                     height: 36,
                     background: isVisited
                       ? "#dcfce7"
-                      : isCurrent
+                      : isSuggested
                       ? "linear-gradient(135deg, #d97706, #b45309)"
                       : "white",
-                    boxShadow: isCurrent
+                    boxShadow: isSuggested
                       ? "0 4px 14px rgba(217,119,6,0.35)"
                       : "0 1px 4px rgba(0,0,0,0.07)",
-                    border: isUpcoming ? "1.5px solid #e2e8f0" : "none",
+                    border: !isVisited && !isSuggested ? "1.5px solid #e2e8f0" : "none",
                   }}
                 >
                   {isVisited ? (
                     <CheckCircle2 size={17} className="text-green-600" />
-                  ) : isCurrent ? (
+                  ) : isSuggested ? (
                     <span className="text-white font-black text-xs">{stop.number}</span>
                   ) : (
-                    <span className="text-xs" style={{ fontSize: 16 }}>{stop.emoji}</span>
+                    <span style={{ fontSize: 16 }}>{stop.emoji}</span>
                   )}
                 </div>
 
@@ -158,90 +161,89 @@ export function TourClient() {
               <div
                 className="flex-1 mb-2.5 rounded-2xl overflow-hidden transition-all duration-300"
                 style={{
-                  background: isCurrent ? "white" : isVisited ? "rgba(255,255,255,0.5)" : "white",
-                  boxShadow: isCurrent
+                  background: isVisited ? "rgba(255,255,255,0.5)" : "white",
+                  boxShadow: isExpanded && !isVisited
                     ? "0 6px 24px rgba(217,119,6,0.12), 0 1px 4px rgba(0,0,0,0.06)"
                     : "0 1px 4px rgba(0,0,0,0.05)",
                   opacity: isVisited ? 0.55 : 1,
-                  borderLeft: isCurrent ? "3px solid #d97706" : isVisited ? "3px solid #86efac" : "3px solid #e2e8f0",
+                  borderLeft: isSuggested ? "3px solid #d97706" : isVisited ? "3px solid #86efac" : "3px solid #e2e8f0",
                 }}
               >
-                <div className="p-3.5">
-                  {/* Row: emoji + name + time + map pin */}
-                  <div className="flex items-center gap-2">
-                    {!isVisited && (
-                      <span className="text-base leading-none shrink-0">{stop.emoji}</span>
-                    )}
-                    <p
-                      className="font-bold text-sm leading-tight flex-1"
-                      style={{ color: isUpcoming ? "#94a3b8" : "#0f172a" }}
-                    >
-                      {stop.name}
-                    </p>
-                    <span
-                      className="text-xs font-semibold shrink-0 tabular-nums"
-                      style={{ color: isUpcoming ? "#cbd5e1" : "#64748b" }}
-                    >
-                      {stop.time}
-                    </span>
-                    {/* Map pin — always visible on non-visited */}
-                    {!isVisited && (
-                      <a
-                        href={stop.mapsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center justify-center rounded-xl active:scale-90 transition-transform shrink-0"
-                        style={{
-                          width: 30,
-                          height: 30,
-                          background: isCurrent ? "#fff7ed" : "#f1f5f9",
-                        }}
-                        aria-label={`Open ${stop.name} in Google Maps`}
-                      >
-                        <MapPin
-                          size={14}
-                          strokeWidth={2}
-                          style={{ color: isCurrent ? "#d97706" : "#94a3b8" }}
-                        />
-                      </a>
-                    )}
-                  </div>
-
-                  {/* Expanded notes for current stop */}
-                  {isCurrent && (
-                    <div className="mt-3">
-                      <p className="text-slate-600 text-sm leading-relaxed">{stop.notes}</p>
-
-                      {/* Open in Maps CTA */}
-                      <a
-                        href={stop.mapsUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-transform active:scale-95"
-                        style={{ background: "#f0fdf4", color: "#15803d" }}
-                      >
-                        <MapPin size={13} strokeWidth={2.5} />
-                        Open in Google Maps
-                      </a>
-
-                      {/* Mark visited / Complete */}
-                      <button
-                        onClick={markVisited}
-                        className="mt-2 w-full py-3 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
-                        style={{
-                          background:
-                            idx === total - 1
-                              ? "linear-gradient(135deg, #14532d 0%, #166534 100%)"
-                              : "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
-                        }}
-                      >
-                        {idx === total - 1 ? "Complete Tour  ✓" : "Mark as Visited"}
-                        {idx < total - 1 && <ChevronRight size={15} />}
-                      </button>
-                    </div>
+                {/* Tappable header row */}
+                <button
+                  className="w-full p-3.5 flex items-center gap-2 text-left active:bg-zinc-50 transition-colors"
+                  onClick={() => setExpandedIdx(isExpanded ? null : idx)}
+                >
+                  {!isVisited && (
+                    <span className="text-base leading-none shrink-0">{stop.emoji}</span>
                   )}
-                </div>
+                  <p
+                    className="font-bold text-sm leading-tight flex-1"
+                    style={{ color: !isVisited ? "#0f172a" : "#94a3b8" }}
+                  >
+                    {stop.name}
+                  </p>
+                  <span
+                    className="text-xs font-semibold shrink-0 tabular-nums"
+                    style={{ color: isVisited ? "#cbd5e1" : "#64748b" }}
+                  >
+                    {stop.time}
+                  </span>
+                  {/* Map pin */}
+                  {!isVisited && (
+                    <a
+                      href={stop.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex items-center justify-center rounded-xl active:scale-90 transition-transform shrink-0"
+                      style={{
+                        width: 30,
+                        height: 30,
+                        background: isSuggested ? "#fff7ed" : "#f1f5f9",
+                      }}
+                      aria-label={`Open ${stop.name} in Google Maps`}
+                    >
+                      <MapPin
+                        size={14}
+                        strokeWidth={2}
+                        style={{ color: isSuggested ? "#d97706" : "#94a3b8" }}
+                      />
+                    </a>
+                  )}
+                </button>
+
+                {/* Expandable content — any stop */}
+                {isExpanded && !isVisited && (
+                  <div className="px-3.5 pb-3.5">
+                    <p className="text-slate-600 text-sm leading-relaxed">{stop.notes}</p>
+
+                    <a
+                      href={stop.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-bold transition-transform active:scale-95"
+                      style={{ background: "#f0fdf4", color: "#15803d" }}
+                    >
+                      <MapPin size={13} strokeWidth={2.5} />
+                      Open in Google Maps
+                    </a>
+
+                    <button
+                      onClick={() => markVisited(idx)}
+                      className="mt-2 w-full py-3 rounded-xl font-bold text-sm text-white flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
+                      style={{
+                        background:
+                          idx === total - 1
+                            ? "linear-gradient(135deg, #14532d 0%, #166534 100%)"
+                            : "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
+                      }}
+                    >
+                      {idx === total - 1 ? "Complete Tour  ✓" : "Mark as Visited"}
+                      {idx < total - 1 && <ChevronRight size={15} />}
+                    </button>
+                  </div>
+                )}
               </div>
 
             </div>
