@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sun, Moon, MapPin, ChefHat, ScrollText, HelpCircle } from "lucide-react";
+import { Sun, Moon, MapPin, ChefHat, ScrollText, HelpCircle, Smile } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const allCards = [
@@ -72,6 +72,18 @@ const allCards = [
     href: "/wtf",
     icon: HelpCircle,
     bg: "linear-gradient(135deg, #fdf3d0, #f9e199)",
+    glow: null,
+    activeHours: () => false,
+    large: false,
+    iconLight: false,
+  },
+  {
+    id: "hobbies",
+    label: "Hobbies",
+    sub: "Things to do",
+    href: "/hobbies",
+    icon: Smile,
+    bg: "linear-gradient(135deg, #ede9fe, #c4b5fd)",
     glow: null,
     activeHours: () => false,
     large: false,
