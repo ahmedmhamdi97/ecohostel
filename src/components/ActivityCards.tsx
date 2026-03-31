@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sun, Moon, MapPin, ChefHat, ScrollText, HelpCircle } from "lucide-react";
+import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const allCards = [
@@ -32,9 +32,9 @@ const allCards = [
   {
     id: "tour",
     label: "Walking\nTour",
-    sub: "18:00 – 20:00",
-    href: "/guides?q=walking+tour",
-    icon: MapPin,
+    sub: "14 stops · ~2 hours",
+    href: "/tour",
+    icon: Map,
     bg: "linear-gradient(135deg, #cde8df 0%, #9dd4c0 100%)",
     glow: null,
     activeHours: (h: number) => h >= 18 && h < 20,
@@ -124,7 +124,7 @@ export function ActivityCards() {
                 {/* Active badge */}
                 {isActive && (
                   <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-white/25 rounded-full px-2.5 py-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-white" style={{ animation: "pulse 2.4s ease-in-out infinite" }} />
                     <span className="text-white text-[10px] font-bold tracking-wide">NOW</span>
                   </div>
                 )}
