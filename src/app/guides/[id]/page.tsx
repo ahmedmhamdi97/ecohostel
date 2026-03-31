@@ -1,4 +1,4 @@
-import { getTutorials, parseSteps, getYouTubeEmbedUrl } from "@/lib/sheets";
+import { getTutorials, parseSteps, getYouTubeEmbedUrl, slugify } from "@/lib/sheets";
 import Link from "next/link";
 import { ArrowLeft, Play, BookOpen } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -11,13 +11,12 @@ interface Props {
 
 export default async function GuideDetailPage({ params }: Props) {
   const [tutorials, { id }] = await Promise.all([getTutorials(), params]);
-  const idx = parseInt(id, 10);
+  const tutorial = tutorials.find((t) => slugify(t.title) === id);
 
-  if (isNaN(idx) || idx < 0 || idx >= tutorials.length) notFound();
+  if (!tutorial) notFound();
 
-  const tutorial = tutorials[idx];
   const steps = parseSteps(tutorial.steps);
-  const embedUrl = getYouTubeEmbedUrl(tutorial.video);
+  const embedUrl = getYouTubeEmbedUrl(tutorial.video ?? "");
 
   return (
     <div className="min-h-screen bg-zinc-50 animate-fade-up">

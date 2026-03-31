@@ -23,21 +23,24 @@ export function ShiftChecklist({ tasks, shiftType }: ShiftChecklistProps) {
   const today = new Date().toISOString().split("T")[0];
   const storageKey = `shift-${shiftType}-${today}`;
 
-  const [checked, setChecked] = useState<Set<number>>(new Set());
-  const [mounted, setMounted] = useState(false);
+  const [checked, setChecked] = useState<Set<number>>(() => {
+    if (typeof window === "undefined") return new Set();
+    try {
+      const saved = localStorage.getItem(storageKey);
+      return saved ? new Set<number>(JSON.parse(saved)) : new Set();
+    } catch (err) {
+      console.warn("Failed to load shift checklist progress:", err);
+      return new Set();
+    }
+  });
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(storageKey);
-      if (saved) setChecked(new Set(JSON.parse(saved)));
-    } catch { /* ignore */ }
-    setMounted(true);
-  }, [storageKey]);
-
-  useEffect(() => {
-    if (!mounted) return;
-    localStorage.setItem(storageKey, JSON.stringify([...checked]));
-  }, [checked, storageKey, mounted]);
+      localStorage.setItem(storageKey, JSON.stringify([...checked]));
+    } catch (err) {
+      console.warn("Failed to save shift checklist progress:", err);
+    }
+  }, [checked, storageKey]);
 
   const toggle = (i: number) =>
     setChecked((prev) => {

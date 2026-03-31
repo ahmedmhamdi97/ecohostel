@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { BookOpen, Play, ChevronRight } from "lucide-react";
 import { SearchBar } from "@/components/SearchBar";
+import { slugify } from "@/lib/sheets";
 import type { Tutorial } from "@/types";
 
 interface GuidesClientProps {
@@ -69,12 +70,10 @@ export function GuidesClient({ tutorials, initialSearch = "" }: GuidesClientProp
 
       {/* Guide list */}
       <div className="space-y-3">
-        {filtered.map((tutorial, i) => {
-          const idx = tutorials.indexOf(tutorial);
-          return (
+        {filtered.map((tutorial) => (
             <Link
-              key={i}
-              href={`/guides/${idx}`}
+              key={tutorial.title}
+              href={`/guides/${slugify(tutorial.title)}`}
               className="tap-card flex items-center gap-4 bg-white rounded-3xl border border-zinc-100
                          shadow-card p-4"
             >
@@ -106,8 +105,7 @@ export function GuidesClient({ tutorials, initialSearch = "" }: GuidesClientProp
                 <ChevronRight size={14} className="text-zinc-500" />
               </div>
             </Link>
-          );
-        })}
+          ))}
       </div>
     </div>
   );

@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SPLASH_DURATION_MS } from "@/constants";
 
-let splashShown = false;
+const SPLASH_KEY = "splash-seen";
 
 export function SplashScreen() {
   const ref = useRef<HTMLDivElement>(null);
-  const alreadySeen = splashShown || (typeof window !== "undefined" && !!sessionStorage.getItem("splash-seen"));
+  const alreadySeen =
+    typeof window !== "undefined" && !!sessionStorage.getItem(SPLASH_KEY);
   const [visible, setVisible] = useState(!alreadySeen);
 
   useEffect(() => {
-    if (splashShown || sessionStorage.getItem("splash-seen")) return;
+    if (sessionStorage.getItem(SPLASH_KEY)) return;
 
-    splashShown = true;
-    sessionStorage.setItem("splash-seen", "1");
+    sessionStorage.setItem(SPLASH_KEY, "1");
 
-    const timer = setTimeout(() => setVisible(false), 4200);
+    const timer = setTimeout(() => setVisible(false), SPLASH_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
 

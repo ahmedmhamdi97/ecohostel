@@ -2,7 +2,7 @@ import { getSchedule } from "@/lib/sheets";
 import { ScheduleClient } from "@/components/ScheduleClient";
 import { Calendar } from "lucide-react";
 
-export const revalidate = 0;
+export const revalidate = 300;
 
 export default async function SchedulePage() {
   const schedules = await getSchedule();

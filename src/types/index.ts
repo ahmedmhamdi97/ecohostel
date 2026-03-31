@@ -2,7 +2,7 @@ export interface Tutorial {
   title: string;
   category: string;
   steps: string;
-  video: string;
+  video?: string;
 }
 
 export interface Recipe {
@@ -14,7 +14,7 @@ export interface Recipe {
 
 export interface ShiftTask {
   task: string;
-  order: string;
+  order: number;
 }
 
 export interface Announcement {

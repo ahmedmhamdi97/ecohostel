@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight } from "lucide-react";
 import type { Announcement } from "@/types";
 
 interface Props {
@@ -37,15 +36,6 @@ export function AnnouncementHero({ announcements }: Props) {
             <p className="text-white font-semibold text-base leading-snug flex-1 line-clamp-2">
               {item.message}
             </p>
-            <button
-              className="flex items-center gap-1.5 bg-white/15 backdrop-blur-sm
-                         rounded-full pl-3 pr-1.5 py-1.5 shrink-0"
-            >
-              <span className="text-white text-xs font-semibold">More</span>
-              <span className="w-5 h-5 rounded-full bg-white/25 flex items-center justify-center">
-                <ChevronRight size={11} className="text-white" />
-              </span>
-            </button>
           </div>
         </div>
       </div>

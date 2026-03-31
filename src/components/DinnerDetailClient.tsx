@@ -12,17 +12,18 @@ interface Props {
 
 export function DinnerDetailClient({ dinner, sections }: Props) {
   const router = useRouter();
-  const storageKey = `dinner-${dinner.slug}-${new Date().toDateString()}`;
-  const [checked, setChecked] = useState<Set<string>>(new Set());
+  const storageKey = `dinner-${dinner.slug}-${new Date().toISOString().split("T")[0]}`;
 
-  useEffect(() => {
+  const [checked, setChecked] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
     try {
       const saved = localStorage.getItem(storageKey);
-      if (saved) setChecked(new Set(JSON.parse(saved) as string[]));
-    } catch {
-      // ignore
+      return saved ? new Set<string>(JSON.parse(saved)) : new Set();
+    } catch (err) {
+      console.warn("Failed to load dinner checklist progress:", err);
+      return new Set();
     }
-  }, [storageKey]);
+  });
 
   const toggleTask = (id: string) => {
     setChecked((prev) => {
@@ -31,8 +32,8 @@ export function DinnerDetailClient({ dinner, sections }: Props) {
       else next.add(id);
       try {
         localStorage.setItem(storageKey, JSON.stringify(Array.from(next)));
-      } catch {
-        // ignore
+      } catch (err) {
+        console.warn("Failed to save dinner checklist progress:", err);
       }
       return next;
     });
