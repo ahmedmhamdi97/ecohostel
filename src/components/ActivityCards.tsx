@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle } from "lucide-react";
+import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle, Mountain } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const allCards = [
@@ -77,6 +77,24 @@ const allCards = [
     large: false,
     iconLight: false,
   },
+  {
+    id: "hike",
+    label: "Sierra Nevada\nHike",
+    sub: "Mon & Wed · Monachil",
+    href: "/hike",
+    icon: Mountain,
+    bg: "linear-gradient(135deg, #d4e8df 0%, #a3c9b8 100%)",
+    glow: null,
+    activeHours: (_h: number) => {
+      const now = new Date();
+      const day = now.getDay();
+      const h = now.getHours();
+      return (day === 1 || day === 3) && h >= 8 && h < 11;
+    },
+    large: false,
+    iconLight: false,
+    fullWidth: true,
+  },
 ];
 
 export function ActivityCards() {
@@ -146,19 +164,20 @@ export function ActivityCards() {
         {smallCards.map((card) => {
           const isActive = card.id === activeId;
           const Icon = card.icon;
+          const isFullWidth = "fullWidth" in card && card.fullWidth;
           return (
-            <Link key={card.href} href={card.href}>
+            <Link key={card.href} href={card.href} className={isFullWidth ? "col-span-2" : ""}>
               <div
-                className={`tap-card relative rounded-[28px] overflow-hidden h-36 p-4 flex flex-col justify-between cursor-pointer${isActive ? " pulse-glow" : ""}`}
+                className={`tap-card relative rounded-[28px] overflow-hidden p-4 flex cursor-pointer${isFullWidth ? " h-24 flex-row items-center gap-4" : " h-36 flex-col justify-between"}${isActive ? " pulse-glow" : ""}`}
                 style={getStyle(card)}
               >
                 <div
-                  className="w-10 h-10 rounded-2xl flex items-center justify-center"
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
                   style={{ background: "rgba(15,23,42,0.09)" }}
                 >
                   <Icon size={19} className="text-slate-700" strokeWidth={2} />
                 </div>
-                <div>
+                <div className={isFullWidth ? "flex-1" : ""}>
                   <p className="text-slate-900 font-bold text-base leading-tight whitespace-pre-line tracking-tight">{card.label}</p>
                   <p className="text-slate-500 text-xs mt-0.5 font-medium">{card.sub}</p>
                 </div>
