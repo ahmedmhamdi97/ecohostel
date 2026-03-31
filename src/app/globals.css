@@ -92,7 +92,7 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.02); }
 }
-.pulse-glow { animation: pulse-glow 0.8s ease-in-out infinite; }
+.pulse-glow { animation: pulse-glow 2.4s ease-in-out infinite; }
 
 /* Card tap animation */
 .tap-card {
