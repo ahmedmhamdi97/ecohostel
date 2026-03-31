@@ -13,7 +13,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Eco Hostel",
     time: "6:00 PM",
     emoji: "🏠",
-    notes: "Introduce yourself, ask everyone their name and where they're from. Start walking toward Puerta Elvira.",
+    notes: "Hey everyone! Welcome 😊 My name is [Name]. Before we start, let's do a quick round — your name and where you're from.\nThis tour will take us through the oldest parts of Granada, including areas influenced by almost 800 years of Islamic history. Let's go!",
     mapsUrl: "https://maps.google.com/?q=Eco+Hostel+Granada,+Spain",
   },
   {
@@ -21,7 +21,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Puerta de Elvira",
     time: "6:05 PM",
     emoji: "🏛️",
-    notes: "Ancient gate built 11th century, main entrance during Islamic rule. Granada history dates to 1500–2000 BC.",
+    notes: "So this gate is from the 11th century, built during Muslim rule. This was actually the main entrance to Granada back then.\nGranada was one of the last Muslim cities in Spain, until it was reconquered in 1492 — so a lot of what you'll see today comes from that period.",
     mapsUrl: "https://maps.google.com/?q=Puerta+de+Elvira,+Granada,+Spain",
   },
   {
@@ -29,7 +29,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Calle Elvira",
     time: "6:10 PM",
     emoji: "🛍️",
-    notes: "Try shawarma at Mar Chica, baklavas at Petra bakery, second-hand items at CasaKuna.",
+    notes: "This street used to be a busy Moorish market. Today you can still feel that influence — all the tea shops, spices, shawarma, and sweets.\nGranada is one of the few places in Spain where the Arabic influence is still very alive.",
     mapsUrl: "https://maps.google.com/?q=Calle+Elvira,+Granada,+Spain",
   },
   {
@@ -37,7 +37,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Plaza Nueva",
     time: "6:15 PM",
     emoji: "⛲",
-    notes: "Royal Chancellery (old courthouse). Darro River runs BENEATH this square! Sometimes gypsies do flamenco here at night. Tapas: Los Manueles (croquettes), Los Diamantes (fried fish).",
+    notes: "Fun fact — even though it's called 'New Square,' this is actually the oldest square in Granada.\nThat big building is the old Royal Chancellery, basically the high court.\nAnd something people don't expect — there's a river flowing right underneath us, the Darro River.",
     mapsUrl: "https://maps.google.com/?q=Plaza+Nueva,+Granada,+Spain",
   },
   {
@@ -45,7 +45,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Iglesia Santa Ana",
     time: "6:25 PM",
     emoji: "⛪",
-    notes: "16th century church built ON TOP of a mosque. Has Islamic elements — 3 copper balls on roof symbolize Judaism, Christianity and Islam. Free entry!",
+    notes: "This church was built in the 16th century, right after the Christians took over — and it's built directly on top of a mosque.\nSo this is a great example of how cultures overlapped here — you'll even see some Islamic design elements still present.",
     mapsUrl: "https://maps.google.com/?q=Iglesia+de+Santa+Ana,+Granada,+Spain",
   },
   {
@@ -53,7 +53,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Paseo del Río Darro",
     time: "6:30 PM",
     emoji: "🌿",
-    notes: "One of Granada's most charming streets. Called Paseo de los Tristes (Promenade of the Sad) because funeral processions passed here. Visit Bañuelo nearby.",
+    notes: "This is one of the most beautiful streets in Granada.\nIt's also called 'Paseo de los Tristes,' or 'Promenade of the Sad,' because funeral processions used to pass through here on the way to the cemetery.\nAnd up there, you can already see parts of the Alhambra.",
     mapsUrl: "https://maps.google.com/?q=Paseo+del+Río+Darro,+Granada,+Spain",
   },
   {
@@ -61,7 +61,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Cuesta del Chapiz",
     time: "6:40 PM",
     emoji: "⬆️",
-    notes: "Climb up! Look for Palace of Córdovas, Casas del Chapiz, House of Morocco, old orphanage. Sculpture of Chorrojumo — Granada's most famous 19th century gypsy.",
+    notes: "Okay, this is the workout part 😄\nWe're now entering the Albayzín, the old Muslim neighborhood — notice the narrow streets and white houses.\nThere's also a famous local figure called Chorrojumo, a 19th-century gypsy who became a symbol of Granada.",
     mapsUrl: "https://maps.google.com/?q=Cuesta+del+Chapiz,+Granada,+Spain",
   },
   {
@@ -69,7 +69,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Sacromonte",
     time: "6:50 PM",
     emoji: "💃",
-    notes: "Gypsy cave neighborhood, over 10,000 years of history! White cave facades carved into the hillside. Recommend La Rocío flamenco show €30, tickets at reception.",
+    notes: "This area is called Sacromonte, and it's famous for these cave houses.\nPeople have lived in them for centuries — they stay cool in summer and warm in winter.\nThis is also where traditional flamenco developed, especially within the local gypsy community.",
     mapsUrl: "https://maps.google.com/?q=Sacromonte,+Granada,+Spain",
   },
   {
@@ -77,7 +77,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Vereda de Enmedio",
     time: "7:00 PM",
     emoji: "📸",
-    notes: "Picturesque path with incredible views of the Alhambra. Best photo spot of the tour!",
+    notes: "Alright — this is one of the best photo spots of the tour.\nThat's the Alhambra — a palace and fortress built by the last Muslim rulers of Spain.\nTake your time here, this is a special view.",
     mapsUrl: "https://maps.google.com/?q=Vereda+de+Enmedio,+Granada,+Spain",
   },
   {
@@ -85,7 +85,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Fuente Amapola",
     time: "7:05 PM",
     emoji: "⛲",
-    notes: "Beautiful fountain with a famous phrase. Good rest spot after the uphill climb.",
+    notes: "Quick stop to catch our breath 😄\nThis is a quieter spot, nice for photos. There's also a poetic phrase here — Granada is full of little hidden details like this.",
     mapsUrl: "https://maps.google.com/?q=Fuente+Amapola,+Granada,+Spain",
   },
   {
@@ -93,7 +93,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Plaza Larga",
     time: "7:10 PM",
     emoji: "🏡",
-    notes: "Historic square dating back to 14th century. Site of a famous rebellion in the 15th century.",
+    notes: "This square dates back to the 14th century and has always been a local meeting place.\nIt's also seen a lot of history, including rebellions during the transition between Muslim and Christian rule.",
     mapsUrl: "https://maps.google.com/?q=Plaza+Larga,+Albaicín,+Granada,+Spain",
   },
   {
@@ -101,7 +101,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Mirador San Nicolás",
     time: "7:15 PM",
     emoji: "⭐",
-    notes: "HIGHLIGHT! Granada's most famous viewpoint. Best view of the Alhambra with Sierra Nevada behind it. Often has live music. Give guests extra time for photos here!",
+    notes: "⭐ This is the highlight of the tour.\nFrom here you get the most famous view of the Alhambra, with the Sierra Nevada mountains behind it.\nYou'll usually find musicians here too — feel free to take your time, photos, enjoy the atmosphere.",
     mapsUrl: "https://maps.google.com/?q=Mirador+de+San+Nicolás,+Granada,+Spain",
   },
   {
@@ -109,7 +109,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Calderería Nueva",
     time: "7:30 PM",
     emoji: "🫖",
-    notes: "Known as Tea Street — feels like Morocco! Souvenirs, baklava, Moroccan tea shops.",
+    notes: "This street is often called 'Tea Street.'\nIt feels a bit like Morocco — lots of tea houses, souvenirs, and sweets.\nIt's another great example of how strong the Arabic influence still is in Granada.",
     mapsUrl: "https://maps.google.com/?q=Calderería+Nueva,+Granada,+Spain",
   },
   {
@@ -117,7 +117,7 @@ export const TOUR_STOPS: TourStop[] = [
     name: "Back at Eco Hostel",
     time: "7:40 PM",
     emoji: "🥂",
-    notes: "Tell guests: FREE SANGRIA at 8PM on the 4th floor! Explain family dinner and how tokens work (1 token = €1, buy at reception).",
+    notes: "Alright guys, that's the end of the tour — thank you for joining! 🙌\nDon't forget: we have free sangria at 8 PM on the 4th floor.\nWe also have a family dinner tonight — you can buy tokens at reception, €10.\nIf you have any questions or want recommendations, just ask me!",
     mapsUrl: "https://maps.google.com/?q=Eco+Hostel+Granada,+Spain",
   },
 ];

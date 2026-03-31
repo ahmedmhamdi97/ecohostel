@@ -216,7 +216,7 @@ export function TourClient() {
                 {/* Expandable content — any stop */}
                 {isExpanded && !isVisited && (
                   <div className="px-3.5 pb-3.5">
-                    <p className="text-slate-600 text-sm leading-relaxed">{stop.notes}</p>
+                    <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-line">{stop.notes}</p>
 
                     <a
                       href={stop.mapsUrl}
