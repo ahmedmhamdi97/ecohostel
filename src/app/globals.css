@@ -14,6 +14,26 @@
     box-sizing: border-box;
   }
 
+  /* Accessibility: visible focus rings for keyboard nav */
+  :focus-visible {
+    outline: 3px solid #0891B2;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Pointer cursor on all interactive elements */
+  button, a, [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   html {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
