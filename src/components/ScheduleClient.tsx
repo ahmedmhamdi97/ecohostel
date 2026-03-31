@@ -32,9 +32,7 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
     } else if (e.touches.length === 1) {
       const now = Date.now();
       if (now - lastTapTime.current < 300) {
-        setScale(1);
-        setTx(0);
-        setTy(0);
+        setScale(1); setTx(0); setTy(0);
       }
       lastTapTime.current = now;
       lastSingleTouch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -48,13 +46,10 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
     if (e.touches.length === 2 && lastDist.current !== null) {
       const dist = getDistance(e.touches);
       const ratio = dist / lastDist.current;
-      const next = Math.min(Math.max(lastScale.current * ratio, 1), 5);
-      setScale(next);
+      setScale(Math.min(Math.max(lastScale.current * ratio, 1), 5));
     } else if (e.touches.length === 1 && scale > 1) {
-      const dx = e.touches[0].clientX - lastSingleTouch.current.x;
-      const dy = e.touches[0].clientY - lastSingleTouch.current.y;
-      setTx(lastTx.current + dx);
-      setTy(lastTy.current + dy);
+      setTx(lastTx.current + e.touches[0].clientX - lastSingleTouch.current.x);
+      setTy(lastTy.current + e.touches[0].clientY - lastSingleTouch.current.y);
     }
   }
 
@@ -65,13 +60,13 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black"
+      className="fixed inset-0 bg-black overflow-hidden"
       style={{ touchAction: "none" }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Back button → home */}
+      {/* Back button */}
       <Link
         href="/"
         className="absolute top-0 left-0 z-10 m-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-md active:scale-90 transition-transform"
@@ -80,8 +75,17 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
         <ArrowLeft size={18} className="text-zinc-900" strokeWidth={2} />
       </Link>
 
-      {/* Image — full width, rotated 90°, pinch-to-zoom */}
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+      {/* Rotated + zoomable image */}
+      <div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{
+          transform: `rotate(90deg) scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
+          transformOrigin: "center center",
+          transition: scale === 1 && tx === 0 && ty === 0 ? "transform 0.25s ease" : "none",
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
@@ -91,8 +95,6 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
             width: "100vh",
             height: "100vw",
             objectFit: "contain",
-            transform: `rotate(90deg) scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
-            transition: scale === 1 && tx === 0 && ty === 0 ? "transform 0.25s ease" : "none",
             userSelect: "none",
             WebkitUserSelect: "none",
           }}
