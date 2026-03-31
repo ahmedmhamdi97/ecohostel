@@ -77,6 +77,7 @@ const MORNING_TASKS_FALLBACK: ShiftTask[] = [
   { task: "Bring in any cork stools left on balconies",                                 order: 14 },
   { task: "Mon & Fri: clean storage room and kitchen fridges",                          order: 15 },
   { task: "Mon & Wed: go down at 9:00 AM to buy fruit for hiking",                     order: 16 },
+  { task: "Clean the storage room and staff fridge and throw away rotten food",         order: 17 },
 ];
 
 export async function getMorningTasks(): Promise<ShiftTask[]> {

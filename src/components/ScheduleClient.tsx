@@ -6,14 +6,8 @@ import { ArrowLeft } from "lucide-react";
 
 export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
   const [scale, setScale] = useState(1);
-  const [tx, setTx] = useState(0);
-  const [ty, setTy] = useState(0);
-
   const lastDist = useRef<number | null>(null);
   const lastScale = useRef(1);
-  const lastTx = useRef(0);
-  const lastTy = useRef(0);
-  const lastSingleTouch = useRef({ x: 0, y: 0 });
   const lastTapTime = useRef(0);
 
   function getDistance(touches: React.TouchList) {
@@ -27,40 +21,28 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
       e.preventDefault();
       lastDist.current = getDistance(e.touches);
       lastScale.current = scale;
-      lastTx.current = tx;
-      lastTy.current = ty;
     } else if (e.touches.length === 1) {
       const now = Date.now();
-      if (now - lastTapTime.current < 300) {
-        setScale(1); setTx(0); setTy(0);
-      }
+      if (now - lastTapTime.current < 300) setScale(1);
       lastTapTime.current = now;
-      lastSingleTouch.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      lastTx.current = tx;
-      lastTy.current = ty;
     }
   }
 
   function handleTouchMove(e: React.TouchEvent) {
-    e.preventDefault();
     if (e.touches.length === 2 && lastDist.current !== null) {
+      e.preventDefault();
       const dist = getDistance(e.touches);
-      const ratio = dist / lastDist.current;
-      setScale(Math.min(Math.max(lastScale.current * ratio, 1), 5));
-    } else if (e.touches.length === 1 && scale > 1) {
-      setTx(lastTx.current + e.touches[0].clientX - lastSingleTouch.current.x);
-      setTy(lastTy.current + e.touches[0].clientY - lastSingleTouch.current.y);
+      setScale(Math.min(Math.max(lastScale.current * (dist / lastDist.current), 1), 5));
     }
   }
 
   function handleTouchEnd() {
     lastDist.current = null;
-    if (scale <= 1) { setTx(0); setTy(0); }
   }
 
   return (
     <div
-      className="fixed inset-0 bg-black overflow-hidden"
+      className="fixed inset-0 bg-black flex items-center justify-center overflow-hidden"
       style={{ touchAction: "none" }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
@@ -75,35 +57,28 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
         <ArrowLeft size={18} className="text-zinc-900" strokeWidth={2} />
       </Link>
 
-      {/* Rotated + zoomable image */}
-      <div
-        className="absolute inset-0 flex items-center justify-center"
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imageUrl}
+        alt="Weekly schedule"
+        draggable={false}
         style={{
-          transform: `rotate(90deg) scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: "100vh",
+          height: "100vw",
+          objectFit: "contain",
+          transform: `translate(-50%, -50%) rotate(90deg) scale(${scale})`,
           transformOrigin: "center center",
-          transition: scale === 1 && tx === 0 && ty === 0 ? "transform 0.25s ease" : "none",
-          width: "100vw",
-          height: "100vh",
+          transition: scale === 1 ? "transform 0.25s ease" : "none",
+          userSelect: "none",
+          WebkitUserSelect: "none",
         }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={imageUrl}
-          alt="Weekly schedule"
-          draggable={false}
-          style={{
-            width: "100vh",
-            height: "100vw",
-            objectFit: "contain",
-            userSelect: "none",
-            WebkitUserSelect: "none",
-          }}
-        />
-      </div>
+      />
 
-      {/* Hint */}
       <p
-        className="absolute bottom-0 left-0 right-0 text-white/40 text-xs text-center"
+        className="absolute bottom-0 left-0 right-0 text-white/40 text-xs text-center z-10"
         style={{ paddingBottom: "max(16px, env(safe-area-inset-bottom))" }}
       >
         Pinch to zoom · Double-tap to reset
