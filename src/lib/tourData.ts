@@ -123,4 +123,4 @@ export const TOUR_STOPS: TourStop[] = [
 ];
 
 export const FULL_ROUTE_URL =
-  "https://www.google.com/maps/dir/Eco+Hostel+Granada+Spain/Puerta+de+Elvira+Granada+Spain/Paseo+del+Río+Darro+Granada+Spain/Sacromonte+Granada+Spain/Mirador+de+San+Nicolás+Granada+Spain/Calderería+Nueva+Granada+Spain/Eco+Hostel+Granada+Spain";
+  "https://www.google.com/maps/dir/Eco+Hostel+Granada+Spain/Puerta+de+Elvira+Granada+Spain/Plaza+Nueva+Granada+Spain/Sacromonte+Granada+Spain/Mirador+de+San+Nicolás+Granada+Spain/Calderería+Nueva+Granada+Spain/Eco+Hostel+Granada+Spain";
