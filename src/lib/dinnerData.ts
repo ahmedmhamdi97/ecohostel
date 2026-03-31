@@ -20,19 +20,20 @@ export interface DinnerDay {
 }
 
 const BEFORE: DinnerTask[] = [
-  { id: "b1", text: "Set tables with plates, cutlery & glasses" },
-  { id: "b2", text: "Fill water jugs and place on tables" },
-  { id: "b3", text: "Update the allergen info board" },
+  { id: "b1", text: "Clean the tables" },
+  { id: "b2", text: "Wash any dishes left in sink, dry and put away" },
+  { id: "b3", text: "Put away kitchen items drying on the rack" },
   { id: "b4", text: "Prep and measure all ingredients" },
-  { id: "b5", text: "Preheat oven / heat pans as needed" },
+  { id: "b5", text: "Prep Sangria" },
 ];
 
 const DURING: DinnerTask[] = [
   { id: "d1", text: "Cook main dish following the recipe" },
   { id: "d2", text: "Plate and serve food to all tables" },
-  { id: "d3", text: "Refill water and offer drinks" },
-  { id: "d4", text: "Check in with diners for feedback" },
-  { id: "d5", text: "Keep kitchen tidy while cooking" },
+  { id: "d3", text: "Check the Dinner List and collect the tokens from the guests" },
+  { id: "d4", text: "Offer drinks" },
+  { id: "d5", text: "Check in with diners for feedback" },
+  { id: "d6", text: "Keep kitchen tidy while cooking" },
 ];
 
 const AFTER: DinnerTask[] = [

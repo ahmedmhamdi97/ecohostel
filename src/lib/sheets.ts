@@ -61,22 +61,22 @@ export async function getRecipes(): Promise<Recipe[]> {
 }
 
 const MORNING_TASKS_FALLBACK: ShiftTask[] = [
-  { task: "Come down to reception at 8:00 AM with the iPhone",          order: 1  },
-  { task: "Check for late check-in envelopes from night shift",         order: 2  },
-  { task: "Clean living room tables, kitchen counter and stove",        order: 3  },
-  { task: "Wash any dishes left in sink, dry and put away",             order: 4  },
-  { task: "Put away kitchen items drying on the rack",                  order: 5  },
-  { task: "Clean microwave inside and out",                             order: 6  },
-  { task: "Empty toaster crumbs",                                       order: 7  },
-  { task: "Put stools back down",                                       order: 8  },
-  { task: "Arrange cushions in living room and TV Room",                order: 9  },
-  { task: "Replace worn kitchen cloths and sponges",                    order: 10 },
-  { task: "Tidy up TV Room",                                            order: 11 },
-  { task: "Dust furniture surfaces",                                    order: 12 },
-  { task: "Empty ashtrays on balconies, sweep cigarette butts",         order: 13 },
-  { task: "Bring in any cork stools left on balconies",                 order: 14 },
-  { task: "Mon & Fri: clean storage room and kitchen fridges",          order: 15 },
-  { task: "Mon & Wed: go down at 9:00 AM to buy fruit for hiking",      order: 16 },
+  { task: "Come down to reception at 8:00 AM with the iPhone",                         order: 1  },
+  { task: "Check for late check-in envelopes from night shift (and laundry if there is one)", order: 2  },
+  { task: "Clean living room tables, kitchen counter and stove",                        order: 3  },
+  { task: "Wash any dishes left in sink, dry and put away",                             order: 4  },
+  { task: "Put away kitchen items drying on the rack",                                  order: 5  },
+  { task: "Clean microwave inside and out",                                             order: 6  },
+  { task: "Empty toaster crumbs",                                                       order: 7  },
+  { task: "Put stools back down",                                                       order: 8  },
+  { task: "Arrange cushions in living room and TV Room",                                order: 9  },
+  { task: "Replace worn kitchen cloths and sponges",                                    order: 10 },
+  { task: "Tidy up TV Room",                                                            order: 11 },
+  { task: "Dust furniture surfaces",                                                    order: 12 },
+  { task: "Empty ashtrays on balconies, sweep cigarette butts",                         order: 13 },
+  { task: "Bring in any cork stools left on balconies",                                 order: 14 },
+  { task: "Mon & Fri: clean storage room and kitchen fridges",                          order: 15 },
+  { task: "Mon & Wed: go down at 9:00 AM to buy fruit for hiking",                     order: 16 },
 ];
 
 export async function getMorningTasks(): Promise<ShiftTask[]> {
@@ -89,18 +89,20 @@ export async function getMorningTasks(): Promise<ShiftTask[]> {
 }
 
 const NIGHT_TASKS_FALLBACK: ShiftTask[] = [
-  { task: "Put new bags in trash bins, tie with a knot",        order: 1  },
-  { task: "Clear guests from common areas by midnight",         order: 2  },
-  { task: "Turn off the music",                                 order: 3  },
-  { task: "Put stools and benches on top of tables",            order: 4  },
-  { task: "No stools left on balconies",                        order: 5  },
-  { task: "Clear and dry the sink area",                        order: 6  },
-  { task: "Wash dishes and glasses from dinner",                order: 7  },
-  { task: "Store the pan back in storage",                      order: 8  },
-  { task: "Sweep and mop kitchen, living area, TV Room",        order: 9  },
-  { task: "Check phone is not on silent (Fermax app open)",     order: 10 },
-  { task: "Do a round through the hostel — check noise levels", order: 11 },
-  { task: "Fri only: take out the cardboard",                   order: 12 },
+  { task: "Go down to reception at 22:00 to get the phone for the night shift", order: 1  },
+  { task: "Check phone is not on silent (Fermax app open)",                     order: 2  },
+  { task: "Put new bags in trash bins, tie with a knot",                        order: 3  },
+  { task: "Clear guests from common areas by midnight",                          order: 4  },
+  { task: "Turn off the music",                                                  order: 5  },
+  { task: "Put stools and benches on top of tables",                             order: 6  },
+  { task: "No stools left on balconies",                                         order: 7  },
+  { task: "Clear and dry the sink area",                                         order: 8  },
+  { task: "Wash dishes and glasses from dinner",                                 order: 9  },
+  { task: "Store the pan back in storage",                                       order: 10 },
+  { task: "Sweep and mop kitchen, living area, TV Room",                         order: 11 },
+  { task: "Do a round through the hostel — check noise levels",                  order: 12 },
+  { task: "Fri only: take out the cardboard",                                    order: 13 },
+  { task: "Do the guest laundry if there is one",                                order: 14 },
 ];
 
 export async function getNightTasks(): Promise<ShiftTask[]> {
