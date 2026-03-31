@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Calendar, MapPin, Bus, CheckCircle2, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Bus, CheckCircle2, Clock, ChevronDown, Map } from "lucide-react";
 
 const BUS_STOP_URL = "https://maps.google.com/?q=Paseo+De+Los+Basilios,+Centro,+18006+Granada,+Spain";
 const MONACHIL_URL = "https://maps.google.com/?q=Monachil,+Granada,+Spain";
@@ -13,7 +14,35 @@ const MORNING_TASKS = [
   "Take the first aid kit and the bus ticket",
 ];
 
+const ROUTE_STEPS: { caption: string; img: string }[] = [
+  { img: "/hike/step-01.jpg", caption: "Start of trail — enter past the no-entry signs at the edge of the village" },
+  { img: "/hike/step-02.jpg", caption: "Cross the main square and continue straight" },
+  { img: "/hike/step-03.jpg", caption: "Turn right at the white building with the orange fence" },
+  { img: "/hike/step-04.jpg", caption: "Head uphill on the paved road with the railing on the right" },
+  { img: "/hike/step-05.jpg", caption: "Enter the olive grove — follow the dirt path into the trees" },
+  { img: "/hike/step-06.jpg", caption: "Continue on the open road past the Parking Privado sign" },
+  { img: "/hike/step-07.jpg", caption: "Take the dirt path on the left at the fork" },
+  { img: "/hike/step-08.jpg", caption: "Walk through the shaded olive grove" },
+  { img: "/hike/step-09.jpg", caption: "Follow the rocky trail uphill — canyon walls start appearing" },
+  { img: "/hike/step-10.jpg", caption: "Cross the concrete bridge (as marked)" },
+  { img: "/hike/step-11.jpg", caption: "Open meadow — follow the trail signpost ahead" },
+  { img: "/hike/step-12.jpg", caption: "Enter the rocky canyon — follow the yellow trail signs" },
+  { img: "/hike/step-13.jpg", caption: "Follow the blue arrow markers painted on the rocks" },
+  { img: "/hike/step-14.jpg", caption: "Cross the red suspension bridge through the rock arch" },
+  { img: "/hike/step-15.jpg", caption: "Check the wooden signpost and follow the direction it points" },
+  { img: "/hike/step-16.jpg", caption: "Continue on the wide open mountain path" },
+  { img: "/hike/step-17.jpg", caption: "Reach the rocky plateau — great views start here" },
+  { img: "/hike/step-18.jpg", caption: "First panoramic viewpoint — Granada valley below" },
+  { img: "/hike/step-19.jpg", caption: "Rocky descent path — take it slow, loose stones" },
+  { img: "/hike/step-20.jpg", caption: "The rocky peak ahead — you're almost at the top!" },
+  { img: "/hike/step-21.jpg", caption: "Pass the olive grove and green netting — back toward the village" },
+  { img: "/hike/step-22.jpg", caption: "Trail marker post — follow the path back down" },
+  { img: "/hike/step-23.jpg", caption: "Final descent — Monachil village visible below" },
+];
+
 export function HikeClient() {
+  const [routeOpen, setRouteOpen] = useState(false);
+
   return (
     <div className="min-h-screen animate-fade-up" style={{ background: "#f0f4f1" }}>
 
@@ -89,7 +118,6 @@ export function HikeClient() {
                 </p>
               </div>
             </div>
-
             <a
               href={BUS_STOP_URL}
               target="_blank"
@@ -103,7 +131,7 @@ export function HikeClient() {
           </div>
         </div>
 
-        {/* ── Morning shift tasks card ───────────────────── */}
+        {/* ── Morning shift tasks ────────────────────────── */}
         <div className="bg-white rounded-3xl overflow-hidden shadow-card">
           <div
             className="px-5 py-3 flex items-center gap-2"
@@ -122,6 +150,65 @@ export function HikeClient() {
                 <p className="text-zinc-700 text-sm font-medium leading-snug">{task}</p>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* ── Photo route guide ──────────────────────────── */}
+        <div className="bg-white rounded-3xl overflow-hidden shadow-card">
+          {/* Toggle header */}
+          <button
+            className="w-full flex items-center gap-2 px-5 py-4 text-left"
+            style={{ background: "linear-gradient(135deg, #1c3a2e, #2d6a4f)" }}
+            onClick={() => setRouteOpen(!routeOpen)}
+          >
+            <Map size={16} className="text-white/80 shrink-0" />
+            <span className="text-white font-bold text-sm flex-1">Photo Route Guide</span>
+            <span className="text-white/60 text-xs font-medium mr-1">{ROUTE_STEPS.length} steps</span>
+            <ChevronDown
+              size={18}
+              className="text-white/70 transition-transform duration-300 shrink-0"
+              style={{ transform: routeOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+            />
+          </button>
+
+          {/* Expandable steps */}
+          <div
+            className="grid transition-all duration-300 ease-in-out"
+            style={{ gridTemplateRows: routeOpen ? "1fr" : "0fr" }}
+          >
+            <div className="overflow-hidden">
+              <div className="divide-y divide-zinc-100">
+                {ROUTE_STEPS.map((step, i) => (
+                  <div key={i} className="flex gap-0">
+                    {/* Step number column */}
+                    <div className="flex flex-col items-center py-3 pl-4 pr-2" style={{ minWidth: 36 }}>
+                      <div
+                        className="w-6 h-6 rounded-full flex items-center justify-center text-white text-[10px] font-black shrink-0"
+                        style={{ background: "linear-gradient(135deg, #1c3a2e, #2d6a4f)" }}
+                      >
+                        {i + 1}
+                      </div>
+                      {i < ROUTE_STEPS.length - 1 && (
+                        <div className="w-px flex-1 mt-1" style={{ background: "#e4e9e6", minHeight: 8 }} />
+                      )}
+                    </div>
+
+                    {/* Photo + caption */}
+                    <div className="flex-1 py-3 pr-4 pl-2">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={step.img}
+                        alt={step.caption}
+                        className="w-full rounded-2xl object-cover mb-2"
+                        style={{ height: 200 }}
+                        loading="lazy"
+                      />
+                      <p className="text-zinc-700 text-xs font-medium leading-snug">{step.caption}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
