@@ -129,14 +129,14 @@ export function ActivityCards() {
   return (
     <>
       {/* Large cards */}
-      <div className="grid grid-cols-2 gap-3.5 mb-3.5">
+      <div className="grid grid-cols-2 gap-3 mb-3">
         {largeCards.map((card) => {
           const isActive = card.id === activeId;
           const Icon = card.icon;
           return (
             <Link key={card.href} href={card.href}>
               <div
-                className={`tap-card relative rounded-[28px] overflow-hidden h-48 p-5 flex flex-col justify-between cursor-pointer${isActive ? " pulse-glow" : ""}`}
+                className={`tap-card relative rounded-[24px] overflow-hidden h-36 p-4 flex flex-col justify-between cursor-pointer${isActive ? " pulse-glow" : ""}`}
                 style={getStyle(card)}
               >
                 {/* Active badge */}
@@ -146,12 +146,12 @@ export function ActivityCards() {
                     <span className="text-white text-[10px] font-bold tracking-wide">NOW</span>
                   </div>
                 )}
-                <div className="w-11 h-11 rounded-2xl bg-white/20 flex items-center justify-center">
-                  <Icon size={22} className="text-white" strokeWidth={2} />
+                <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
+                  <Icon size={19} className="text-white" strokeWidth={2} />
                 </div>
                 <div>
-                  <p className="text-white font-bold text-xl leading-tight whitespace-pre-line tracking-tight">{card.label}</p>
-                  <p className="text-white/65 text-xs mt-1 font-medium">{card.sub}</p>
+                  <p className="text-white font-bold text-lg leading-tight whitespace-pre-line tracking-tight">{card.label}</p>
+                  <p className="text-white/65 text-xs mt-0.5 font-medium">{card.sub}</p>
                 </div>
               </div>
             </Link>
@@ -160,7 +160,7 @@ export function ActivityCards() {
       </div>
 
       {/* Small cards */}
-      <div className="grid grid-cols-2 gap-3.5">
+      <div className="grid grid-cols-2 gap-3">
         {smallCards.map((card) => {
           const isActive = card.id === activeId;
           const Icon = card.icon;
@@ -168,7 +168,7 @@ export function ActivityCards() {
           return (
             <Link key={card.href} href={card.href} className={isFullWidth ? "col-span-2" : ""}>
               <div
-                className={`tap-card relative rounded-[28px] overflow-hidden p-4 flex cursor-pointer${isFullWidth ? " h-24 flex-row items-center gap-4" : " h-36 flex-col justify-between"}${isActive ? " pulse-glow" : ""}`}
+                className={`tap-card relative rounded-[24px] overflow-hidden p-3.5 flex cursor-pointer${isFullWidth ? " h-20 flex-row items-center gap-3" : " h-28 flex-col justify-between"}${isActive ? " pulse-glow" : ""}`}
                 style={getStyle(card)}
               >
                 <div
