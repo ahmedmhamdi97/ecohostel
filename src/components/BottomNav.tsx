@@ -15,8 +15,8 @@ export function BottomNav() {
       className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
       style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)" }}
     >
-      <div className="pointer-events-auto flex items-center gap-2 rounded-full px-3 py-2.5 shadow-2xl border border-white/20"
-        style={{ background: "rgba(27,42,74,0.6)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
+      <div className="pointer-events-auto flex items-center gap-2 rounded-full px-3 py-2.5 shadow-2xl border border-white/15"
+        style={{ background: "rgba(15,23,42,0.72)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
       >
 
         {/* SOS */}

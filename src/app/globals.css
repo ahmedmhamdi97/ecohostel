@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,20 +35,20 @@
   }
 
   html {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    background-color: #f2f5f0;
+    background-color: #f4f6f3;
     background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(45, 106, 79, 0.07) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 10%, rgba(82, 183, 136, 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(27, 42, 74, 0.04) 0%, transparent 60%);
+      radial-gradient(ellipse at 20% 0%, rgba(45, 106, 79, 0.06) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 10%, rgba(13, 148, 136, 0.04) 0%, transparent 50%);
     background-attachment: fixed;
-    color: #18181b;
+    color: #0f172a;
     overscroll-behavior-y: none;
+    line-height: 1.6;
   }
 
 }
