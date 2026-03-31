@@ -88,7 +88,8 @@ export function ScheduleClient({ imageUrl }: { imageUrl: string }) {
           alt="Weekly schedule"
           draggable={false}
           style={{
-            width: "100vw",
+            width: "100vh",
+            height: "100vw",
             objectFit: "contain",
             transform: `rotate(90deg) scale(${scale}) translate(${tx / scale}px, ${ty / scale}px)`,
             transition: scale === 1 && tx === 0 && ty === 0 ? "transform 0.25s ease" : "none",
