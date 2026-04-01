@@ -2,61 +2,74 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar } from "lucide-react";
+import { Home, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { ChatPanel } from "./ChatPanel";
 
 export function BottomNav() {
   const pathname = usePathname();
   const homeActive = pathname === "/";
-  const scheduleActive = pathname.startsWith("/schedule");
   const sosActive = pathname.startsWith("/sos");
+  const [chatOpen, setChatOpen] = useState(false);
 
   return (
-    <nav
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
-      style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)" }}
-    >
-      <div className="pointer-events-auto flex items-center gap-2 rounded-full px-3 py-2.5 shadow-2xl border border-white/15"
-        style={{ background: "rgba(15,23,42,0.72)", backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
+    <>
+      <ChatPanel isOpen={chatOpen} onClose={() => setChatOpen(false)} />
+
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-40 flex justify-center pointer-events-none"
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 16px)" }}
       >
-
-        {/* SOS */}
-        <Link
-          href="/sos"
-          className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-90
-            ${sosActive ? "bg-red-500" : "bg-red-500/20"}`}
+        <div
+          className="pointer-events-auto flex items-center gap-2 rounded-full px-3 py-2.5 shadow-2xl border border-white/15"
+          style={{
+            background: "rgba(15,23,42,0.72)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+          }}
         >
-          <span className={`text-xs font-black tracking-wider ${sosActive ? "text-white" : "text-red-400"}`}>
-            SOS
-          </span>
-        </Link>
+          {/* SOS */}
+          <Link
+            href="/sos"
+            className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-90
+              ${sosActive ? "bg-red-500" : "bg-red-500/20"}`}
+          >
+            <span className={`text-xs font-black tracking-wider ${sosActive ? "text-white" : "text-red-400"}`}>
+              SOS
+            </span>
+          </Link>
 
-        {/* Home — larger, centre */}
-        <Link
-          href="/"
-          className={`flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 active:scale-90
-            ${homeActive ? "bg-white" : "hover:bg-white/10"}`}
-        >
-          <Home
-            size={22}
-            strokeWidth={2}
-            className={homeActive ? "text-zinc-900" : "text-zinc-400"}
-          />
-        </Link>
+          {/* Home — larger, centre */}
+          <Link
+            href="/"
+            className={`flex items-center justify-center w-14 h-14 rounded-full transition-all duration-200 active:scale-90
+              ${homeActive ? "bg-white" : "hover:bg-white/10"}`}
+          >
+            <Home
+              size={22}
+              strokeWidth={2}
+              className={homeActive ? "text-zinc-900" : "text-zinc-400"}
+            />
+          </Link>
 
-        {/* Schedule */}
-        <Link
-          href="/schedule"
-          className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-90
-            ${scheduleActive ? "bg-white" : "hover:bg-white/10"}`}
-        >
-          <Calendar
-            size={20}
-            strokeWidth={2}
-            className={scheduleActive ? "text-zinc-900" : "text-zinc-400"}
-          />
-        </Link>
-
-      </div>
-    </nav>
+          {/* AI Chat */}
+          <button
+            onClick={() => setChatOpen(true)}
+            className="flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-90"
+            style={{
+              background: chatOpen
+                ? "linear-gradient(135deg, #1B2A4A, #2d4270)"
+                : "rgba(255,255,255,0.10)",
+            }}
+          >
+            <Sparkles
+              size={20}
+              strokeWidth={2}
+              className={chatOpen ? "text-white" : "text-zinc-400"}
+            />
+          </button>
+        </div>
+      </nav>
+    </>
   );
 }
