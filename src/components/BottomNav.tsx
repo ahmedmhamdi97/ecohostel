@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Calendar } from "lucide-react";
+import { Home, Target } from "lucide-react";
 
 export function BottomNav() {
   const pathname = usePathname();
   const homeActive = pathname === "/";
-  const scheduleActive = pathname.startsWith("/schedule");
+  const quizActive = pathname.startsWith("/quiz");
   const sosActive = pathname.startsWith("/sos");
 
   return (
@@ -43,16 +43,16 @@ export function BottomNav() {
           />
         </Link>
 
-        {/* Schedule */}
+        {/* Quiz */}
         <Link
-          href="/schedule"
+          href="/quiz"
           className={`flex items-center justify-center w-12 h-12 rounded-full transition-all duration-200 active:scale-90
-            ${scheduleActive ? "bg-white" : "hover:bg-white/10"}`}
+            ${quizActive ? "bg-white" : "hover:bg-white/10"}`}
         >
-          <Calendar
+          <Target
             size={20}
             strokeWidth={2}
-            className={scheduleActive ? "text-zinc-900" : "text-zinc-400"}
+            className={quizActive ? "text-zinc-900" : "text-zinc-400"}
           />
         </Link>
 

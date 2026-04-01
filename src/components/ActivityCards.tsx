@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle, Mountain, Target } from "lucide-react";
+import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle, Mountain } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const allCards = [
@@ -93,19 +93,6 @@ const allCards = [
     },
     large: false,
     iconLight: false,
-    fullWidth: true,
-  },
-  {
-    id: "quiz",
-    label: "Emergency Quiz",
-    sub: "Test your knowledge",
-    href: "/quiz",
-    icon: Target,
-    bg: "linear-gradient(135deg, #450a0a 0%, #991b1b 100%)",
-    glow: "0 12px 32px rgba(153,27,27,0.35)",
-    activeHours: () => false,
-    large: false,
-    iconLight: true,
     fullWidth: true,
   },
 ];

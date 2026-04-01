@@ -145,13 +145,29 @@ export function QuizClient() {
 
   const question = QUIZ_QUESTIONS[idx];
   const progress = idx / total;
-  const passed = score >= Math.ceil(total * 0.75); // 75% to pass
+  const passed = score === total; // must be perfect to pass
+
+  const triggerResult = () => {
+    setPhase("result");
+    if (!effectShown.current) {
+      effectShown.current = true;
+      setShowEffect(true);
+      setTimeout(() => setShowEffect(false), 5000);
+    }
+  };
 
   const choose = (optIdx: number) => {
     if (phase !== "question") return;
+    const correct = question.options[optIdx].correct;
     setSelected(optIdx);
-    if (question.options[optIdx].correct) setScore((s) => s + 1);
-    setPhase("answered");
+    if (correct) {
+      setScore((s) => s + 1);
+      setPhase("answered");
+    } else {
+      // Wrong answer — show feedback briefly then go to fail screen
+      setPhase("answered");
+      setTimeout(() => triggerResult(), 1800);
+    }
   };
 
   const next = () => {
@@ -160,12 +176,7 @@ export function QuizClient() {
       setSelected(null);
       setPhase("question");
     } else {
-      setPhase("result");
-      if (!effectShown.current) {
-        effectShown.current = true;
-        setShowEffect(true);
-        setTimeout(() => setShowEffect(false), passed ? 5000 : 4000);
-      }
+      triggerResult();
     }
   };
 
