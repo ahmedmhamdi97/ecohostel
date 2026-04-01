@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle, Mountain } from "lucide-react";
+import { Sun, Moon, Map, ChefHat, ScrollText, HelpCircle, Mountain, Target } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const allCards = [
@@ -95,6 +95,19 @@ const allCards = [
     iconLight: false,
     fullWidth: true,
   },
+  {
+    id: "quiz",
+    label: "Emergency Quiz",
+    sub: "Test your knowledge",
+    href: "/quiz",
+    icon: Target,
+    bg: "linear-gradient(135deg, #450a0a 0%, #991b1b 100%)",
+    glow: "0 12px 32px rgba(153,27,27,0.35)",
+    activeHours: () => false,
+    large: false,
+    iconLight: true,
+    fullWidth: true,
+  },
 ];
 
 export function ActivityCards() {
@@ -173,13 +186,13 @@ export function ActivityCards() {
               >
                 <div
                   className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
-                  style={{ background: "rgba(15,23,42,0.09)" }}
+                  style={{ background: card.iconLight ? "rgba(255,255,255,0.2)" : "rgba(15,23,42,0.09)" }}
                 >
-                  <Icon size={19} className="text-slate-700" strokeWidth={2} />
+                  <Icon size={19} className={card.iconLight ? "text-white" : "text-slate-700"} strokeWidth={2} />
                 </div>
                 <div className={isFullWidth ? "flex-1" : ""}>
-                  <p className="text-slate-900 font-bold text-base leading-tight whitespace-pre-line tracking-tight">{card.label}</p>
-                  <p className="text-slate-500 text-xs mt-0.5 font-medium">{card.sub}</p>
+                  <p className={`font-bold text-base leading-tight whitespace-pre-line tracking-tight ${card.iconLight ? "text-white" : "text-slate-900"}`}>{card.label}</p>
+                  <p className={`text-xs mt-0.5 font-medium ${card.iconLight ? "text-white/65" : "text-slate-500"}`}>{card.sub}</p>
                 </div>
               </div>
             </Link>
