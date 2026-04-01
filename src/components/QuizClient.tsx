@@ -7,6 +7,21 @@ import { QUIZ_QUESTIONS } from "@/lib/quizData";
 
 type Phase = "question" | "answered" | "result";
 
+interface BouncingMeme {
+  id: number;
+  src: string;
+  size: number;
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  midX: number;
+  midY: number;
+  duration: number;
+  delay: number;
+  rotation: number;
+}
+
 interface Confetti {
   id: number;
   x: number;
@@ -15,15 +30,6 @@ interface Confetti {
   delay: number;
   duration: number;
   rotation: number;
-}
-
-interface Meme {
-  id: number;
-  x: number;
-  y: number;
-  rotation: number;
-  scale: number;
-  delay: number;
 }
 
 function ConfettiRain() {
@@ -45,7 +51,7 @@ function ConfettiRain() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-40 overflow-hidden">
       {pieces.map((p) => (
         <div
           key={p.id}
@@ -56,8 +62,7 @@ function ConfettiRain() {
             width: p.size,
             height: p.size,
             background: p.color,
-            borderRadius: Math.random() > 0.5 ? "50%" : "2px",
-            transform: `rotate(${p.rotation}deg)`,
+            borderRadius: p.id % 2 === 0 ? "50%" : "2px",
             animation: `confettiFall ${p.duration}s ${p.delay}s ease-in forwards`,
           }}
         />
@@ -72,21 +77,29 @@ function ConfettiRain() {
   );
 }
 
-function MemeExplosion() {
-  const [memes, setMemes] = useState<Meme[]>([]);
+function BouncingMemes({ src }: { src: string }) {
+  const [memes, setMemes] = useState<BouncingMeme[]>([]);
 
   useEffect(() => {
+    const COUNT = 4;
+    // Pre-generate unique keyframe paths for each meme
     setMemes(
-      Array.from({ length: 12 }, (_, i) => ({
+      Array.from({ length: COUNT }, (_, i) => ({
         id: i,
-        x: 5 + Math.random() * 85,
-        y: 5 + Math.random() * 80,
-        rotation: -30 + Math.random() * 60,
-        scale: 0.5 + Math.random() * 0.8,
-        delay: i * 0.12,
+        src,
+        size: 80 + i * 15,
+        startX: 10 + Math.random() * 60,
+        startY: 10 + Math.random() * 30,
+        endX:   10 + Math.random() * 60,
+        endY:   50 + Math.random() * 30,
+        midX:   10 + Math.random() * 60,
+        midY:   20 + Math.random() * 50,
+        duration: 2.2 + i * 0.4,
+        delay: i * 0.25,
+        rotation: -25 + Math.random() * 50,
       }))
     );
-  }, []);
+  }, [src]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden">
@@ -94,26 +107,29 @@ function MemeExplosion() {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={m.id}
-          src="/meme.png"
+          src={m.src}
           alt="meme"
           style={{
             position: "absolute",
-            left: `${m.x}%`,
-            top: `${m.y}%`,
-            width: 90,
-            height: 90,
+            width: m.size,
+            height: m.size,
             objectFit: "contain",
-            transform: `rotate(${m.rotation}deg) scale(${m.scale})`,
-            animation: `memePop 0.4s ${m.delay}s cubic-bezier(0.34, 1.56, 0.64, 1) both`,
+            left: `${m.startX}%`,
+            top: `${m.startY}%`,
+            animation: `bounce-${m.id} ${m.duration}s ${m.delay}s cubic-bezier(0.36, 0.07, 0.19, 0.97) 3 both`,
           }}
         />
       ))}
-      <style>{`
-        @keyframes memePop {
-          from { transform: scale(0) rotate(0deg); opacity: 0; }
-          to   { transform: scale(var(--s, 1)) rotate(var(--r, 0deg)); opacity: 1; }
+      <style>{memes.map((m) => `
+        @keyframes bounce-${m.id} {
+          0%   { transform: translate(0, 0)              rotate(${m.rotation}deg) scale(0.8); opacity: 0; }
+          15%  { transform: translate(0, 0)              rotate(${m.rotation}deg) scale(1.1); opacity: 1; }
+          40%  { transform: translate(${m.midX - m.startX}vw, ${m.midY - m.startY}vh) rotate(${-m.rotation}deg) scale(1); }
+          70%  { transform: translate(${m.endX - m.startX}vw, ${m.endY - m.startY}vh) rotate(${m.rotation * 1.5}deg) scale(1.05); }
+          90%  { transform: translate(${m.midX - m.startX + 10}vw, ${m.startY - m.startY + 5}vh) rotate(${-m.rotation}deg) scale(0.95); }
+          100% { transform: translate(${m.endX - m.startX - 5}vw, ${m.endY - m.startY + 10}vh) rotate(${m.rotation}deg) scale(0.9); opacity: 0.8; }
         }
-      `}</style>
+      `).join("\n")}</style>
     </div>
   );
 }
@@ -167,7 +183,8 @@ export function QuizClient() {
     return (
       <>
         {showEffect && passed && <ConfettiRain />}
-        {showEffect && !passed && <MemeExplosion />}
+        {showEffect && passed && <BouncingMemes src="/meme2.png" />}
+        {showEffect && !passed && <BouncingMemes src="/meme.png" />}
 
         <div
           className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
